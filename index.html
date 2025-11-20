@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Editor Portfolio - Amit</title>
+    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font --><style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Smooth scroll for navigation */
+            scroll-behavior: smooth;
+            /* FIX: Prevents horizontal scroll caused by 3D transformations */
+            overflow-x: hidden; 
+            /* Hide the default cursor */
+            cursor: none;
+        }
+
+        /* --- Scroll Reveal Animation Styles (Sections) --- */
+        .hide-initial {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .animate-in {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        /* --- CAROUSEL SCROLL REVEAL ANIMATION --- */
+        #coverflow-wrap.carousel-hidden {
+            opacity: 0;
+            transform: translateY(60px) scale(0.9);
+            /* Keep layout space occupied */
+        }
+
+        #coverflow-wrap.carousel-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            transition: opacity 1s ease-out, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* --- Carousel Active Card Animation (Floating) --- */
+        @keyframes float-center {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-12px) scale(1); }
+        }
+        .anim-floating {
+            animation: float-center 4s ease-in-out infinite;
+        }
+
+        /* --- Custom Cursor Overrides --- */
+        a, button, input, textarea, .cf-card, .cf-arrow {
+            cursor: none !important;
+        }
+
+        /* --- CUSTOM CURSOR STYLES --- */
+        .cursor-dot, .cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 10000;
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #6366f1; /* Indigo-500 */
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+        .cursor-ring {
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            border-radius: 50%;
+            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, transform 0.1s linear;
+        }
+        
+        /* State for interactive elements */
+        .cursor-pointer-active .cursor-dot {
+            background-color: #e0f2f1;
+        }
+        .cursor-pointer-active .cursor-ring {
+            width: 48px;
+            height: 48px;
+            border: 1px solid rgba(99, 102, 241, 0.8);
+            background-color: rgba(99, 102, 241, 0.2);
+        }
+
+        /* Custom video placeholder styling */
+        .video-placeholder {
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            position: relative;
+            background-color: #2D3748;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            transition: transform 0.2s ease;
+            cursor: none !important;
+        }
+        .video-placeholder:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Custom style for hero background image and gradient */
+        .hero-bg {
+            background-image: url('https://i.ibb.co/XxFJ6ybT/Hero2.jpg'); 
+            background-size: cover; 
+            background-position: center center; 
+            opacity: 0.2; 
+            background-repeat: no-repeat; 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Gradient Overlay */
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top,
+                rgba(17, 24, 39, 1) 0%,
+                rgba(17, 24, 39, 0.7) 30%,
+                rgba(17, 24, 39, 0.2) 70%,
+                rgba(17, 24, 39, 0) 100%
+            );
+            z-index: -1;
+        }
+
+        /* --- TEXT GLOW STYLES (NEW) --- */
+        .text-glow {
+            color: #ffffff; /* Default white color */
+            text-shadow: 
+                0 0 10px rgba(99, 102, 241, 0.6), /* Primary Indigo glow */
+                0 0 20px rgba(99, 102, 241, 0.3); /* Wider, softer glow */
+            transition: text-shadow 0.3s ease;
+        }
+        
+        /* --- Animation CSS --- */
+        #typing-text { visibility: hidden; }
+        #fading-text { visibility: hidden; }
+
+        .fader { animation: fade-in 1.5s ease-out forwards; }
+        @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+        .typing-cursor {
+            display: inline-block;
+            padding-right: 4px; 
+            border-right: 2px solid white; 
+            animation: blink-caret 0.75s step-end infinite;
+            vertical-align: text-top;
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: white }
+        }
+        
+        /* ================= CAROUSEL 3D CSS (Coverflow) ================= */
+
+        .cf-card {
+            width: 250px; /* Desktop size */
+            aspect-ratio: 9 / 16;
+            border-radius: 14px;
+            overflow: hidden;
+            background: linear-gradient(180deg,#24303a,#2D3748);
+            border: 1px solid rgba(255,255,255,0.04);
+            box-shadow: 0 6px 24px rgba(0,0,0,0.6) inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #c7d2fe;
+            font-weight: 700;
+            pointer-events: auto;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        #coverflow {
+            position: absolute;
+            inset: 0;
+            perspective: 1200px;
+            user-select: none;
+            touch-action: pan-y;
+            pointer-events: none;
+        }
+
+        .cf-item {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-origin: center center;
+            transition: transform 0.5s cubic-bezier(0.2, 0.5, 0.4, 1), opacity 0.4s ease;
+            will-change: transform, opacity;
+            transform-style: preserve-3d;
+            pointer-events: auto;
+        }
+
+        /* Modern Arrow style */
+        .cf-arrow {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0; 
+            cursor: none !important;
+            backdrop-filter: blur(12px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            z-index: 999;
+            pointer-events: auto;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .cf-arrow:hover { 
+            transform: scale(1.1);
+            background: rgba(99, 102, 241, 0.2);
+            border-color: rgba(99, 102, 241, 0.6);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+            color: #818cf8;
+        }
+        .cf-arrow:active { transform: scale(0.95); }
+        .cf-arrow svg { width: 24px; height: 24px; stroke-width: 2.5; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 640px) {
+            .cf-card { width: 180px; border-radius: 10px; }
+            #coverflow-wrap { height: 520px; }
+            .cf-arrow { width: 48px; height: 48px; }
+            .cf-arrow svg { width: 20px; height: 20px; }
+        }
+
+        .cf-hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(-50%) translateZ(-200px) scale(.8) !important;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-100 antialiased">
+
+    <!-- CUSTOM CURSOR ELEMENTS -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 bg-gray-900/90 backdrop-blur-sm shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-indigo-400">Amit</h1>
+            <nav>
+                <a href="#portfolio" class="text-gray-300 hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Portfolio</a>
+                <a href="#about" class="text-gray-300 hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">About</a>
+                <a href="#contact" class="text-gray-300 hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="relative pt-20 pb-48 text-center overflow-hidden">
+            <div class="hero-bg"></div>
+            <div class="hero-overlay"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <h2 id="typing-text" class="text-4xl sm:text-7xl font-extrabold tracking-tight text-white mb-1 min-h-[3rem] sm:min-h-[4rem]"></h2>
+                <p id="fading-text" class="mt-3 max-w-2xl mx-auto text-xl text-gray-400">Bringing your Story to Life</p>
+                <div class="mt-10 flex justify-center space-x-4">
+                    <a href="#portfolio" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 transition duration-150 transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-indigo-500">View Work</a>
+                    <a href="#contact" class="inline-flex items-center px-6 py-3 border border-indigo-600 text-base font-medium rounded-full text-indigo-400 bg-gray-800 hover:bg-gray-700 transition duration-150">Get In Touch</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Grid Section -->
+        <section id="portfolio" class="py-16 sm:py-24 bg-gray-900">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 section-content hide-initial">
+                
+                <!-- 1. Showreel Section -->
+                <div class="text-center mb-12">
+                    <h3 class="text-3xl sm:text-4xl font-extrabold text-glow">Showreel</h3>
+                </div>
+                <div class="max-w-2xl mx-auto mb-10">
+                    <div class="relative p-2 rounded-2xl backdrop-blur-xl bg-white/5 border border-white/5 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-r before:from-indigo-500/25 before:to-purple-500/25 before:blur-[55px] before:-z-10">
+                        <div class="video-placeholder">
+                            <!-- Removed content -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. More Projects Carousel (Coverflow) -->
+                <section id="more-projects" class="mt-24">
+                    <!-- Adjusted vertical position -->
+                    <div class="flex justify-center relative z-20" style="transform: translateY(15px);">
+                        <h3 class="text-3xl sm:text-4xl font-semibold text-glow -mb-12">More Projects</h3>
+                    </div>
+
+                    <div class="relative flex justify-center w-full">
+                        <!-- coverflow shell: Added 'carousel-hidden' for animation start state -->
+                        <div id="coverflow-wrap" class="relative w-full max-w-6xl h-[680px] mx-auto cursor-none carousel-hidden">
+                            <div id="coverflow" class="absolute inset-0 pointer-events-auto"></div>
+                            
+                            <!-- Modern Arrows -->
+                            <div class="absolute left-1/2 -translate-x-1/2 bottom-[-20px] flex gap-8 z-30">
+                                <button id="prevCF" class="cf-arrow" aria-label="Previous">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
+                                </button>
+                                <button id="nextCF" class="cf-arrow" aria-label="Next">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-16 sm:py-24">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 section-content hide-initial">
+                <div class="lg:flex lg:items-center lg:space-x-12">
+                    <div class="lg:w-1/2">
+                        <h3 class="text-4xl font-extrabold text-white">The Editor Behind the Screen</h3>
+                        <p class="mt-4 text-lg text-gray-400">
+                            I started editing videos on YouTube, and that is how I got interested in video editing. Now I work on real estate videos and UGC edits. I use Premiere Pro and After Effects to make clean, smooth and engaging videos. I can work fast with tight deadlines and I communicate well with clients to deliver the result they want.
+                        </p>
+                    </div>
+                    <div class="lg:w-1/2 mt-10 lg:mt-0">
+                        <div class="bg-gray-800 p-8 rounded-xl shadow-xl">
+                            <h4 class="text-2xl font-bold text-indigo-400 mb-4">Skills Spotlight</h4>
+                            <ul class="space-y-3 text-gray-300">
+                                <li class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-indigo-400 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Real Estate Video Editing
+                                </li>
+                                <li class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-indigo-400 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> UGC and Brand Edits
+                                </li>
+                                <li class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-indigo-400 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Reels and Short-Form Content
+                                </li>
+                                <li class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-indigo-400 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Premiere Pro and After Effects
+                                </li>
+                                <li class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-5 h-5 text-indigo-400 mr-2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg> Fast Turnaround and Clear Communication
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-16 sm:py-24 bg-gray-900">
+            <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 text-center section-content hide-initial">
+                <h3 class="text-4xl font-extrabold text-white">Contact</h3>
+                <p class="mt-4 text-xl text-gray-400 mb-12">Reach me directly via WhatsApp or email.</p>
+                <div class="mt-8 flex flex-col sm:flex-row justify-center space-y-6 sm:space-y-0 sm:space-x-8">
+                    <a href="https://wa.me/919876543210" target="_blank" class="flex items-center justify-center px-6 py-2 text-base font-bold rounded-xl shadow-2xl text-white bg-green-600 hover:bg-green-700 transition duration-150 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-500/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="mr-3">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                        WhatsApp
+                    </a>
+                    <a href="mailto:amitparmar7990@gmail.com" class="flex items-center justify-center px-6 py-2 text-base font-bold rounded-xl shadow-2xl text-indigo-400 border-2 border-indigo-600 bg-gray-800 hover:bg-gray-700 transition duration-150 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-500/50">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6 mr-3"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.625a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
+                        Email
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer --><footer class="bg-gray-900 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
+            <p class="text-gray-500 text-sm">&copy; 2025 Amit. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // --- CUSTOM CURSOR ---
+        const cursorDot = document.querySelector('.cursor-dot');
+        const cursorRing = document.querySelector('.cursor-ring');
+        const interactiveElements = 'a, button, .video-placeholder, .cf-card, input, textarea';
+        const body = document.body;
+        
+        const isMobile = window.innerWidth <= 640 || ('ontouchstart' in window);
+
+        if (!isMobile) {
+            let mouseX = 0, mouseY = 0;
+            let ringX = 0, ringY = 0;
+            const smoothFactor = 0.15;
+
+            document.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+            });
+
+            function animateCursor() {
+                ringX += (mouseX - ringX) * smoothFactor;
+                ringY += (mouseY - ringY) * smoothFactor;
+                cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+                requestAnimationFrame(animateCursor);
+            }
+            animateCursor();
+
+            document.querySelectorAll(interactiveElements).forEach(el => {
+                el.addEventListener('mouseenter', () => body.classList.add('cursor-pointer-active'));
+                el.addEventListener('mouseleave', () => body.classList.remove('cursor-pointer-active'));
+            });
+        } else {
+            if (cursorDot) cursorDot.remove();
+            if (cursorRing) cursorRing.remove();
+            body.style.cursor = 'auto';
+            document.querySelectorAll(interactiveElements).forEach(el => {
+                el.style.cursor = 'pointer';
+            });
+        }
+
+        // --- TYPING & FADE-IN ---
+        function typeWriter(elementId, text, speed, callback) {
+            const el = document.getElementById(elementId);
+            el.innerHTML = '';
+            el.style.visibility = 'visible';
+            el.classList.add('typing-cursor');
+
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    el.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    el.classList.remove('typing-cursor');
+                    if (callback) callback();
+                }
+            }
+            type();
+        }
+
+        function fadeIn(elementId) {
+            const el = document.getElementById(elementId);
+            el.style.visibility = 'visible';
+            el.classList.add('fader');
+        }
+        
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                typeWriter('typing-text', 'Real to Reel', 100, () => {
+                    setTimeout(() => {
+                        fadeIn('fading-text');
+                    }, 300);
+                });
+            }, 300);
+            
+            document.querySelectorAll('.video-placeholder').forEach(placeholder => {
+                placeholder.addEventListener('click', () => {
+                    console.log("Placeholder clicked.");
+                });
+            });
+            
+            // --- SCROLL ANIMATION ---
+            const animatedSections = document.querySelectorAll('.section-content');
+            const carouselWrapper = document.getElementById('coverflow-wrap');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if (entry.target.id === 'coverflow-wrap') {
+                            // Specifically handle carousel fade-in
+                            entry.target.classList.remove('carousel-hidden');
+                            entry.target.classList.add('carousel-visible');
+                        } else {
+                            // Handle other sections
+                            entry.target.classList.remove('hide-initial');
+                            entry.target.classList.add('animate-in');
+                        }
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, {
+                rootMargin: '0px 0px -100px 0px', 
+                threshold: 0.1 
+            });
+
+            animatedSections.forEach(section => {
+                if (!section.closest('#hero')) {
+                    observer.observe(section);
+                }
+            });
+            
+            // Observe carousel wrapper for its specific animation
+            if (carouselWrapper) {
+                observer.observe(carouselWrapper);
+            }
+        });
+
+        // ================= CAROUSEL JS =================
+        (() => {
+            const ORIGINAL_COUNT = 6;
+            const TRANS_DUR = 500;
+            const CENTER_POS_IN_ORIGINAL = 2;
+
+            const contents = [
+                'https://images.unsplash.com/photo-1618172193763-c511deb635ca?w=360&q=80', 
+                'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=360&q=80', 
+                'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=360&q=80', 
+                'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=360&q=80', 
+                'https://images.unsplash.com/photo-1533750516457-a7f992034fec?w=360&q=80', 
+                'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=360&q=80' 
+            ];
+
+            const coverflow = document.getElementById('coverflow');
+            
+            function makeItem(content, sourceIndex) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'cf-item';
+                wrapper.dataset.src = sourceIndex;
+                const card = document.createElement('div');
+                card.className = 'cf-card';
+                const img = document.createElement('img');
+                img.src = content;
+                img.alt = `Project ${sourceIndex + 1}`;
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'cover';
+                img.style.display = 'block';
+                card.appendChild(img);
+                wrapper.appendChild(card);
+                return wrapper;
+            }
+
+            const domItems = [];
+            for (let copy = 0; copy < 3; copy++) {
+                for (let i = 0; i < ORIGINAL_COUNT; i++) {
+                    const node = makeItem(contents[i], i);
+                    coverflow.appendChild(node);
+                    domItems.push(node);
+                }
+            }
+
+            let current = ORIGINAL_COUNT + CENTER_POS_IN_ORIGINAL;
+
+            function getSpacing() {
+                const wrap = document.getElementById("coverflow-wrap");
+                const W = wrap ? wrap.offsetWidth : 1200; 
+                return Math.round(Math.min(360, Math.max(160, W * 0.25))); 
+            }
+
+            function render(instant = false) {
+                const spacing = getSpacing();
+
+                domItems.forEach((el, i) => {
+                    const offset = i - current;
+                    const dist = Math.abs(offset);
+                    const card = el.querySelector('.cf-card');
+                    
+                    el.style.opacity = '0';
+                    el.style.zIndex = '0';
+                    if (card) card.classList.remove('anim-floating'); 
+
+                    if (offset < 0) {
+                        el.style.transform = `translateX(-50%) translateX(${-spacing * 5}px) translateZ(-1000px) scale(0.5) translateY(-50%)`;
+                    } else {
+                        el.style.transform = `translateX(-50%) translateX(${spacing * 5}px) translateZ(-1000px) scale(0.5) translateY(-50%)`;
+                    }
+
+                    if (offset === 0) {
+                        el.style.transform = `translateX(-50%) translateX(0px) scale(1) rotateY(0deg) translateZ(100px) translateY(-50%)`;
+                        el.style.opacity = '1';
+                        el.style.zIndex = 50;
+                        if (card) card.classList.add('anim-floating');
+                        
+                        if(card) {
+                            card.style.boxShadow = '0 0 25px rgba(99, 102, 241, 0.7)';
+                            card.style.borderColor = 'rgba(99, 102, 241, 0.8)';
+                            card.style.filter = 'brightness(1.1)';
+                        }
+                    } 
+                    else if (offset > 0 && offset <= 2) {
+                        const d = offset;
+                        const tx = getX(d, spacing);
+                        const scale = 1 - (d * 0.15);
+                        const ry = -(20 + (d * 5)); 
+                        const z = 100 - (d * 60); 
+                        
+                        el.style.transform = `translateX(-50%) translateX(${tx}px) scale(${scale}) rotateY(${ry}deg) translateZ(${z}px) translateY(-50%)`;
+                        el.style.opacity = d === 1 ? '0.7' : '0.1'; 
+                        el.style.zIndex = 50 - d;
+                        
+                        if(card) {
+                            card.style.boxShadow = '0 6px 24px rgba(0,0,0,0.6) inset';
+                            card.style.borderColor = 'rgba(255,255,255,0.04)';
+                            card.style.filter = 'brightness(1)';
+                        }
+                    } 
+                    else if (offset < 0 && offset >= -2) {
+                        const d = Math.abs(offset);
+                        const tx = -getX(d, spacing);
+                        const scale = 1 - (d * 0.15); 
+                        const ry = 20 + (d * 5); 
+                        const z = 100 - (d * 60);
+
+                        el.style.transform = `translateX(-50%) translateX(${tx}px) scale(${scale}) rotateY(${ry}deg) translateZ(${z}px) translateY(-50%)`;
+                        el.style.opacity = d === 1 ? '0.7' : '0.1';
+                        el.style.zIndex = 50 - d;
+                        
+                        if(card) {
+                            card.style.boxShadow = '0 6px 24px rgba(0,0,0,0.6) inset';
+                            card.style.borderColor = 'rgba(255,255,255,0.04)';
+                            card.style.filter = 'brightness(1)';
+                        }
+                    }
+                    
+                    if (instant) {
+                        el.style.transition = 'none';
+                    } else {
+                        el.style.transition = '';
+                    }
+                });
+            }
+
+            function getX(dist, spacing) {
+                if (dist === 1) return spacing * 1.5; 
+                if (dist === 2) return spacing * 3.2; 
+                return spacing * 4.0;
+            }
+
+            let isAnimating = false;
+            function goTo(newIndex) {
+                if (isAnimating) return;
+                isAnimating = true;
+                current = newIndex;
+                render(false);
+
+                setTimeout(() => {
+                    if (current < ORIGINAL_COUNT) {
+                        current += ORIGINAL_COUNT;
+                        render(true);
+                    } else if (current >= ORIGINAL_COUNT * 2) {
+                        current -= ORIGINAL_COUNT;
+                        render(true);
+                    }
+                    setTimeout(() => { isAnimating = false; render(false); }, 20);
+                }, TRANS_DUR + 20);
+            }
+
+            const nextBtn = document.getElementById('nextCF');
+            const prevBtn = document.getElementById('prevCF');
+            if (nextBtn) nextBtn.addEventListener('click', () => goTo(current + 1));
+            if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
+
+            let down = false, startX = 0, moved = false;
+            const coverflowWrap = document.getElementById('coverflow-wrap');
+            // Use the global isMobile variable from the top of the script
+            // No need to redefine it here to avoid conflict
+
+            coverflowWrap.addEventListener('pointerdown', (e) => {
+                if (e.target.closest('.cf-arrow')) return;
+                if (isMobile) return;
+
+                down = true;
+                startX = e.clientX;
+                moved = false;
+                e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId);
+            });
+            coverflowWrap.addEventListener('pointermove', (e) => {
+                if (!down) return;
+                const diff = e.clientX - startX;
+                if (Math.abs(diff) > 20) moved = true;
+            });
+            coverflowWrap.addEventListener('pointerup', (e) => {
+                if (!down) return;
+                down = false;
+                const end = e.clientX;
+                const diff = end - startX;
+                if (diff > 60) goTo(current - 1);
+                else if (diff < -60) goTo(current + 1);
+                e.currentTarget.releasePointerCapture && e.currentTarget.releasePointerCapture(e.pointerId);
+            });
+            
+            if (isMobile) {
+                coverflowWrap.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
+                coverflowWrap.addEventListener('touchend', (e) => {
+                    const diff = e.changedTouches[0].clientX - startX;
+                    if (diff > 60) goTo(current - 1);
+                    else if (diff < -60) goTo(current + 1);
+                });
+            }
+
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') goTo(current - 1);
+                if (e.key === 'ArrowRight') goTo(current + 1);
+            });
+
+            window.addEventListener('resize', () => render(true));
+
+            render(true);
+            setTimeout(() => render(false), 50);
+            window.coverflowGoTo = (idx) => {
+                const target = ORIGINAL_COUNT + (idx % ORIGINAL_COUNT);
+                goTo(target);
+            };
+        })();
+    </script>
+</body>
+</html>
