@@ -3,6 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Amit - Professional Video Editor specializing in Real Estate, UGC, and Motion Graphics.">
+    <meta name="keywords" content="Video Editor, Premiere Pro, After Effects, Real Estate Video, UGC, Motion Graphics, Portfolio">
+    <meta name="author" content="Amit">
+    <meta name="theme-color" content="#111827">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourportfolio.com/">
+    <meta property="og:title" content="Amit - Video Editor Portfolio">
+    <meta property="og:description" content="Bringing your Story to Life with high-impact edits and motion graphics.">
+    <meta property="og:image" content="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/hero.webp">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourportfolio.com/">
+    <meta property="twitter:title" content="Amit - Video Editor Portfolio">
+    <meta property="twitter:description" content="Bringing your Story to Life with high-impact edits and motion graphics.">
+    <meta property="twitter:image" content="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/hero.webp">
+
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://yourportfolio.com/">
+
     <title>Video Editor Portfolio - Amit</title>
     
     <!-- Favicons -->
@@ -10,14 +32,56 @@
     <link rel="icon" type="image/png" sizes="16x16" href="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/favicon-16x16.png">
     <link rel="apple-touch-icon" href="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/apple-touch-icon.png">
 
-    <!-- Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
-    <!-- Use Inter font --><style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gray: {
+                            900: '#111827',
+                            800: '#1f2937',
+                            700: '#374151',
+                        },
+                        indigo: {
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                        }
+                    },
+                    animation: {
+                        'float': 'float-center 4s ease-in-out infinite',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+    </style>
+
+    <!-- MAIN STYLESHEET -->
+    <style>
+        :root {
+            --cursor-size: 8px;
+            --cursor-ring-size: 32px;
+            --color-primary: #6366f1;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             scroll-behavior: smooth;
             overflow-x: hidden; 
-            cursor: none;
+            background-color: #111827;
+            color: #f3f4f6;
+        }
+
+        :focus-visible {
+            outline: 2px solid #818cf8;
+            outline-offset: 4px;
         }
 
         /* ---------------- INTRO OVERLAY ---------------- */
@@ -26,7 +90,8 @@
             inset: 0;
             z-index: 9999;
             pointer-events: none;
-            display: block; 
+            display: flex;
+            flex-direction: column;
         }
 
         .intro-panel {
@@ -36,18 +101,13 @@
             height: 50%;
             background: linear-gradient(135deg, #1f2937, #111827); 
             transform: translateY(0);
-            transition: transform 1.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
             z-index: 10000;
+            pointer-events: auto;
         }
 
-        .intro-top {
-            top: 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        .intro-bottom {
-            bottom: 0;
-            border-top: 1px solid rgba(255,255,255,0.1);
-        }
+        .intro-top { top: 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .intro-bottom { bottom: 0; border-top: 1px solid rgba(255,255,255,0.1); }
 
         .intro-icon {
             position: absolute;
@@ -55,1164 +115,806 @@
             left: 50%;
             transform: translate(-50%, -50%) scale(1);
             font-size: 60px;
-            font-weight: 800;
+            font-weight: 900;
             color: #6366f1; 
             opacity: 1;
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
             z-index: 10001;
         }
 
         /* ---------------- HERO BG ---------------- */
         .hero-bg {
-            /* UPDATED HERO IMAGE */
             background-image: url('https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/hero.webp'); 
             background-size: cover;
             background-position: center;
-            opacity: 0.25;
+            opacity: 0.4; 
             position: absolute;
             inset: 0;
             z-index: -2;
+            will-change: transform;
+        }
+        @media (max-width: 640px) {
+            .hero-bg { background-position: 65% center; }
         }
 
         .hero-overlay {
             position: absolute;
             inset: 0;
             z-index: -1;
-            background: linear-gradient(to top,
-                rgba(17, 24, 39, 1),
-                rgba(17, 24, 39, 0.6),
-                rgba(17, 24, 39, 0)
-            );
+            background: linear-gradient(to top, #111827 5%, rgba(17, 24, 39, 0.7) 50%, rgba(17, 24, 39, 0.4) 100%);
         }
         
         #hero-sub, #hero-buttons {
-            transition: opacity 1s ease-out, transform 1s ease-out;
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
         }
 
-        /* Typing Effect Cursor */
         .typing-cursor::after {
             content: '|';
             animation: blink 1s step-start infinite;
             color: #6366f1; 
             margin-left: 2px;
         }
+        @keyframes blink { 50% { opacity: 0; } }
 
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        /* --- Showreel Background Pattern (Top) --- */
-        .showreel-bg-pattern {
+        /* ---------------- PATTERNS ---------------- */
+        .bg-pattern {
             position: absolute;
-            top: 0;
             left: 0;
             width: 100%;
-            height: 55%; 
             z-index: 0;
-            background: repeating-linear-gradient(
-                90deg,
-                transparent 0,
-                transparent 60px,           
-                rgba(99, 102, 241, 0.1) 60px,   
-                rgba(99, 102, 241, 0.2) 100px,  
-                rgba(99, 102, 241, 0.1) 140px,  
-                transparent 140px,
-                transparent 240px           
-            );
-            opacity: 1;
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40%, black 60%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 40%, black 60%, transparent 100%);
+            background-image: repeating-linear-gradient(90deg, transparent 0, transparent 60px, rgba(99, 102, 241, 0.07) 60px, rgba(99, 102, 241, 0.15) 100px, rgba(99, 102, 241, 0.07) 140px, transparent 140px, transparent 240px);
             pointer-events: none;
+            transform: translateZ(0);
         }
 
-        /* --- Contact Background Pattern (Bottom) --- */
-        .contact-bg-pattern {
+        .showreel-bg-pattern { top: 0; height: 60%; -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent); mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent); }
+        .contact-bg-pattern { top: 0; height: 100%; -webkit-mask-image: linear-gradient(to bottom, transparent, black 40%, black 60%, transparent); mask-image: linear-gradient(to bottom, transparent, black 40%, black 60%, transparent); }
+
+        .contact-glow {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%; 
-            z-index: 0;
-            background: repeating-linear-gradient(
-                90deg,
-                transparent 0,
-                transparent 60px,           
-                rgba(99, 102, 241, 0.1) 60px,   
-                rgba(99, 102, 241, 0.2) 100px,  
-                rgba(99, 102, 241, 0.1) 140px,  
-                transparent 140px,
-                transparent 240px           
-            );
-            opacity: 1;
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40%, black 60%, transparent 100%);
-            mask-image: linear-gradient(to bottom, transparent 0%, black 40%, black 60%, transparent 100%);
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
             pointer-events: none;
+            z-index: -1;
         }
 
-        /* --- Scroll Reveal Animation Styles (Sections) --- */
-        .hide-initial {
-            opacity: 0;
-            transform: translateY(20px);
+        /* ---------------- ANIMATIONS ---------------- */
+        .hide-initial { opacity: 0; transform: translateY(30px); }
+        .animate-in { opacity: 1; transform: translateY(0); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animate-in, .cf-item, .cf-card { transition: none !important; animation: none !important; transform: none !important; }
+            .hide-initial { opacity: 1; transform: none; }
         }
 
-        .animate-in {
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        /* ---------------- CUSTOM CURSOR ---------------- */
+        @media (pointer: fine) {
+            body { cursor: none; }
+            a, button, input, textarea, .cf-card, .cf-arrow, iframe, .tubelight-container, video { cursor: none !important; }
+            .cursor-dot, .cursor-ring { display: block; }
+        }
+        @media (pointer: coarse) {
+            .cursor-dot, .cursor-ring { display: none !important; }
+            body { cursor: auto; }
         }
 
-        /* --- CAROUSEL SCROLL REVEAL ANIMATION --- */
-        #coverflow-wrap.carousel-hidden {
-            opacity: 0;
-            transform: translateY(60px) scale(0.9);
-        }
-
-        #coverflow-wrap.carousel-visible {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-            transition: opacity 1s ease-out, transform 1s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        @media (max-width: 640px) {
-            .animate-in {
-                transition: opacity 1.2s ease-out, transform 1.2s ease-out; 
-            }
-            #coverflow-wrap.carousel-visible {
-                transition: opacity 1.5s ease-out, transform 1.5s cubic-bezier(0.16, 1, 0.3, 1); 
-            }
-            #more-projects {
-                margin-top: 12rem; 
-            }
-            .hero-bg {
-                background-position: center 20%;
-            }
-        }
-        
-        /* --- Carousel Active Card Animation (Floating) --- */
-        @keyframes float-center {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-12px) scale(1); }
-        }
-        .anim-floating {
-            animation: float-center 4s ease-in-out infinite;
-        }
-
-        /* --- Custom Cursor Overrides --- */
-        a, button, input, textarea, .cf-card, .cf-arrow, video {
-            cursor: none !important;
-        }
-
-        /* --- CUSTOM CURSOR STYLES --- */
         .cursor-dot, .cursor-ring {
             position: fixed;
             top: 0;
             left: 0;
             pointer-events: none;
             z-index: 10000;
-            opacity: 1;
             transform: translate(-50%, -50%);
         }
-        .cursor-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #6366f1; 
-            border-radius: 50%;
-            transition: background-color 0.2s ease;
-        }
+        .cursor-dot { width: 8px; height: 8px; background-color: #6366f1; border-radius: 50%; }
         .cursor-ring {
-            width: 32px;
-            height: 32px;
+            width: 32px; height: 32px;
             border: 1px solid rgba(99, 102, 241, 0.5);
             border-radius: 50%;
-            transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, background-color 0.3s ease, transform 0.1s linear;
+            transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
         }
-        
-        .cursor-pointer-active .cursor-dot {
-            background-color: #e0f2f1;
-        }
-        .cursor-pointer-active .cursor-ring {
-            width: 48px;
-            height: 48px;
-            border: 1px solid rgba(99, 102, 241, 0.8);
-            background-color: rgba(99, 102, 241, 0.2);
+        body.cursor-pointer-active .cursor-dot { background-color: #e0f2f1; }
+        body.cursor-pointer-active .cursor-ring {
+            width: 50px; height: 50px;
+            border-color: rgba(99, 102, 241, 0.8);
+            background-color: rgba(99, 102, 241, 0.15);
         }
 
-        /* Custom video placeholder styling */
-        .video-placeholder {
-            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+        /* ---------------- VIDEO WRAPPER ---------------- */
+        .video-wrapper {
             position: relative;
+            padding-bottom: 56.25%;
             background-color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.5rem;
-            transition: transform 0.2s ease;
-            cursor: none !important;
+            border-radius: 0.75rem;
             overflow: hidden;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
         }
-        .video-placeholder:hover {
-            transform: translateY(-4px);
-        }
+        /* Standardize video/iframe filling */
+        .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
         
-        /* Make video fill container */
-        .video-placeholder video {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            border-radius: 0.5rem;
-            object-fit: cover;
-        }
-        
-        /* --- TEXT GLOW STYLES --- */
-        .text-glow {
-            color: #ffffff; 
-            text-shadow: 
-                0 0 10px rgba(99, 102, 241, 0.6), 
-                0 0 20px rgba(99, 102, 241, 0.3); 
-            transition: text-shadow 0.3s ease;
+        /* Showreel specific hidden state */
+        #showreel-wrapper {
+            opacity: 0; /* Hidden initially */
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth fade in */
         }
 
-        /* ================= CINEMA MODE / TUBELIGHT ================= */
-        
-        /* The dark overlay */
+        /* ---------------- CINEMA MODE ---------------- */
         #cinema-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(17, 24, 39, 0.95); /* Dark gray/black fade */
-            z-index: 9998; 
-            opacity: 0;
-            pointer-events: none;
+            position: fixed; inset: 0;
+            background: rgba(10, 10, 15, 0.96); 
+            z-index: 9990; opacity: 0; pointer-events: none;
             transition: opacity 0.6s ease;
-            backdrop-filter: blur(2px);
+            backdrop-filter: blur(4px);
         }
+        body.cinema-active #cinema-overlay { opacity: 1; pointer-events: auto; }
         
-        /* Body class when active */
-        body.cinema-active #cinema-overlay {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        
-        /* FIX: When active, we must lift the parent section above the overlay 
-           because the parent has a transform that creates a stacking context.
-        */
-        body.cinema-active #portfolio .section-content {
-            z-index: 10000;
-            position: relative;
-        }
-
-        /* UPDATED SELECTOR: 
-           We target direct children of section-content, but EXCLUDE #showreel-container.
-           This ensures the container (and the video inside it) stays opaque.
-        */
+        body.cinema-active #portfolio .section-content { z-index: 9995; position: relative; }
         body.cinema-active #portfolio .section-content > *:not(#showreel-container) {
-            opacity: 0.1;
-            transition: opacity 0.5s ease;
-            pointer-events: none;
-            filter: blur(2px); /* Optional: adds focus to video */
+            opacity: 0.15; filter: blur(4px) grayscale(80%);
+            transition: opacity 0.5s ease, filter 0.5s ease; pointer-events: none;
         }
+        body.cinema-active #showreel-wrapper { z-index: 9999; transform: scale(1.02); box-shadow: 0 0 50px rgba(0,0,0,0.8); }
 
-        /* The Video Container when active */
-        body.cinema-active #showreel-wrapper {
-            position: relative;
-            z-index: 10001; 
-            transform: scale(1.05); /* Slightly larger for impact */
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 0 0 100vmax rgba(0,0,0,0.6); /* Extra localized darkening helper */
-        }
-        
-        /* The Tubelight Switch */
         .tubelight-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            margin-top: 1rem;
-            opacity: 0.8;
-            transition: opacity 0.3s;
+            display: flex; flex-direction: column; align-items: center;
+            cursor: pointer; margin-top: 1rem; opacity: 0.8; transition: opacity 0.3s;
         }
-        .tubelight-container:hover {
-            opacity: 1;
-        }
-        
+        .tubelight-container:hover { opacity: 1; }
         .tubelight {
-            width: 60px;
-            height: 6px;
-            background: #e0e7ff;
-            border-radius: 9999px;
-            /* Neon Glow ON state */
-            box-shadow: 
-                0 0 5px #fff,
-                0 0 10px #fff,
-                0 0 20px #6366f1,
-                0 0 30px #6366f1,
-                0 0 40px #6366f1;
-            transition: all 0.3s ease;
+            width: 60px; height: 6px; background: #e0e7ff; border-radius: 9999px;
+            box-shadow: 0 0 10px #fff, 0 0 20px #6366f1, 0 0 40px #6366f1; transition: all 0.3s ease;
         }
-        
-        /* Off state for the light itself (when cinema mode is ON, maybe we dim the light? 
-           Or keep it on to show it's the source? 
-           Let's dim it slightly to indicate "Lights are dimmed" metaphor) */
-        body.cinema-active .tubelight {
-            background: #4338ca; /* Darker purple */
-            box-shadow: 
-                0 0 2px #6366f1,
-                0 0 5px #4338ca;
-        }
-        
+        body.cinema-active .tubelight { background: #312e81; box-shadow: 0 0 2px #4f46e5; }
         .tubelight-label {
-            margin-top: 8px;
-            font-size: 0.75rem;
-            color: #818cf8;
-            letter-spacing: 0.05em;
-            font-weight: 600;
-            text-transform: uppercase;
-            opacity: 0;
-            transform: translateY(-5px);
-            transition: all 0.3s ease;
+            margin-top: 8px; font-size: 0.75rem; color: #818cf8; font-weight: 600; text-transform: uppercase;
+            opacity: 0; transform: translateY(-5px); transition: all 0.3s ease;
         }
-        .tubelight-container:hover .tubelight-label {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        /* ================= CAROUSEL 3D CSS (Coverflow) ================= */
+        .tubelight-container:hover .tubelight-label { opacity: 1; transform: translateY(0); }
 
-        .cf-card {
-            width: 250px; /* Desktop size */
-            aspect-ratio: 9 / 16;
-            border-radius: 14px;
-            overflow: hidden;
-            background: linear-gradient(180deg,#24303a,#2D3748);
-            border: 1px solid rgba(255,255,255,0.04);
-            box-shadow: 0 6px 24px rgba(0,0,0,0.6) inset;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #c7d2fe;
-            font-weight: 700;
-            pointer-events: auto;
-            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        /* ---------------- NEW EFFICIENT CAROUSEL ---------------- */
+        #coverflow-wrap {
+            height: 520px;
+            perspective: 1000px; 
             position: relative;
-        }
-        
-        /* Video inside card */
-        .cf-card video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        #coverflow {
-            position: absolute;
-            inset: 0;
-            perspective: 1200px;
-            user-select: none;
-            touch-action: pan-y;
-            pointer-events: none;
+            overflow: visible; 
+            margin-top: 2rem;
         }
 
         .cf-item {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform-origin: center center;
-            transition: transform 0.5s cubic-bezier(0.2, 0.5, 0.4, 1), opacity 0.4s ease;
-            will-change: transform, opacity;
+            width: 260px; 
+            aspect-ratio: 9 / 16;
             transform-style: preserve-3d;
-            pointer-events: auto;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease, z-index 0s; 
+            will-change: transform, opacity;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            background: #1f2937;
         }
 
-        .cf-arrow {
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
+        .cf-card {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: #1f2937; 
+            display: flex; /* For placeholder content */
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+        }
+        
+        /* Placeholder for unloaded videos */
+        .cf-card:empty {
+             background-color: #24303a; 
+        }
+
+        .cf-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: 0; /* Start invisible for fade in */
+            transition: opacity 0.5s ease;
+        }
+        
+        .cf-card iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            opacity: 0; /* Start invisible for fade in */
+            transition: opacity 0.5s ease;
+        }
+        
+        .cf-card.loaded video,
+        .cf-card.loaded iframe {
+            opacity: 1;
+        }
+        
+        .cf-card .cf-placeholder {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg,#24303a,#111827);
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 0; 
-            cursor: none !important;
-            backdrop-filter: blur(12px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            z-index: 999;
-            pointer-events: auto;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        .cf-arrow:hover { 
-            transform: scale(1.1);
-            background: rgba(99, 102, 241, 0.2);
-            border-color: rgba(99, 102, 241, 0.6);
-            box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+            font-size: 0.75rem;
             color: #818cf8;
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
-        .cf-arrow:active { transform: scale(0.95); }
-        .cf-arrow svg { width: 24px; height: 24px; stroke-width: 2.5; }
-
-        @media (max-width: 640px) {
-            .cf-card { width: 180px; border-radius: 10px; }
-            #coverflow-wrap { height: 520px; }
-            .cf-arrow { width: 48px; height: 48px; }
-            .cf-arrow svg { width: 20px; height: 20px; }
-        }
-
-        .cf-hidden {
+        
+        .cf-card.loaded .cf-placeholder {
             opacity: 0;
             pointer-events: none;
-            transform: translateX(-50%) translateZ(-200px) scale(.8) !important;
         }
+
+        /* Transparent Overlay to allow dragging/swiping over iframes/videos */
+        .cf-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 10; /* Above media */
+            cursor: grab;
+        }
+        .cf-overlay:active { cursor: grabbing; }
+
+        /* Active State Glow */
+        .cf-item.active-item .cf-card {
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
+            border-color: #6366f1;
+        }
+
+        /* Navigation Arrows */
+        .cf-arrow {
+            background: rgba(17, 24, 39, 0.8);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 48px; height: 48px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            backdrop-filter: blur(4px); transition: all 0.2s; 
+            z-index: 200; /* Fixed: Higher than items */
+            cursor: pointer !important;
+        }
+        .cf-arrow:hover { background: #4f46e5; border-color: #6366f1; transform: scale(1.1); }
+        .cf-arrow:active { transform: scale(0.95); }
+
+        @media (max-width: 640px) {
+            #coverflow-wrap { height: 420px; }
+            .cf-item { width: 180px; }
+        }
+
+        .text-glow { text-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+        .nav-link.active { color: #818cf8; position: relative; }
+        .nav-link.active::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 2px;
+            background-color: #6366f1; box-shadow: 0 0 8px #6366f1;
+        }
+        .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 antialiased">
+<body class="antialiased selection:bg-indigo-500 selection:text-white">
 
-    <!-- CINEMA MODE OVERLAY -->
-    <div id="cinema-overlay"></div>
+    <div id="cinema-overlay" aria-hidden="true"></div>
 
-    <!-- SPLIT-SCREEN INTRO -->
-    <div id="intro-overlay">
+    <div id="intro-overlay" role="presentation">
         <div class="intro-panel intro-top"></div>
         <div class="intro-panel intro-bottom"></div>
         <div class="intro-icon">A</div>
     </div>
 
-    <!-- CUSTOM CURSOR ELEMENTS -->
     <div class="cursor-dot"></div>
     <div class="cursor-ring"></div>
 
-    <!-- Header & Navigation -->
-    <header class="sticky top-0 z-50 bg-gray-900/90 backdrop-blur-sm shadow-md">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-indigo-400">Amit</h1>
-            <nav>
-                <a href="#portfolio" class="text-gray-300 hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Portfolio</a>
-                <a href="#about" class="text-gray-300 hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">About</a>
-                <a href="#contact" class="text-gray-300 hover:text-indigo-400 px-3 py-2 rounded-md text-sm font-medium transition duration-150">Contact</a>
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 bg-gray-900/95 backdrop-blur-md shadow-lg border-b border-gray-800 transition-all duration-300" id="main-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+            <h1 class="text-2xl font-black tracking-tight text-white hover:text-indigo-400 transition-colors cursor-pointer" onclick="window.scrollTo(0,0)">
+                Amit<span class="text-indigo-500">.</span>
+            </h1>
+            
+            <!-- Desktop Nav -->
+            <nav class="hidden sm:flex space-x-1">
+                <a href="#hero" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                <a href="#portfolio" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Portfolio</a>
+                <a href="#about" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                <a href="#contact" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
             </nav>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="sm:hidden text-gray-300 hover:text-white focus:outline-none p-2" aria-label="Menu">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden sm:hidden absolute top-16 left-0 w-full bg-gray-900 border-b border-gray-800 shadow-2xl transition-all duration-300">
+            <div class="px-4 py-4 flex flex-col space-y-2">
+                <a href="#hero" class="mobile-link block px-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">Home</a>
+                <a href="#portfolio" class="mobile-link block px-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">Portfolio</a>
+                <a href="#about" class="mobile-link block px-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">About</a>
+                <a href="#contact" class="mobile-link block px-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">Contact</a>
+            </div>
         </div>
     </header>
 
-    <main>
-        <!-- Hero Section -->
-        <section id="hero" class="relative flex flex-col items-center justify-center text-center min-h-[88vh] overflow-hidden">
-            
-            <!-- Local Hero Background -->
-            <div class="hero-bg"></div>
+    <main id="main-content">
+        <!-- Hero -->
+        <section id="hero" class="relative flex flex-col items-center justify-center text-center min-h-screen pt-16 overflow-hidden" aria-label="Introduction">
+            <div class="hero-bg" role="img"></div>
             <div class="hero-overlay"></div>
-
-            <div class="relative z-10 px-6">
-                <h1 class="text-5xl sm:text-7xl font-extrabold text-white mb-4 opacity-0 transform translate-y-4 min-h-[1.2em]" id="hero-title">
-                    <!-- Text injected by JS -->
-                </h1>
-
-                <p class="text-xl text-gray-300 max-w-xl mx-auto opacity-0 transform translate-y-4" id="hero-sub">
-                    Bringing your Story to Life
-                </p>
-
-                <div class="mt-10 flex justify-center gap-4 opacity-0 transform translate-y-4" id="hero-buttons">
-                    <a href="#portfolio" class="px-6 py-3 rounded-full bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition">
-                        View Work
-                    </a>
-                    <a href="#contact" class="px-6 py-3 rounded-full bg-gray-800 text-indigo-400 border border-indigo-600 hover:bg-gray-700 transition">
-                        Get in Touch
-                    </a>
+            <div class="relative z-10 px-4 w-full max-w-4xl mx-auto">
+                <h1 class="text-5xl sm:text-7xl md:text-8xl font-black text-white mb-6 opacity-0 translate-y-4 tracking-tight" id="hero-title"></h1>
+                <p class="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto opacity-0 translate-y-4 font-light leading-relaxed" id="hero-sub">Bringing your Story to Life with precision editing.</p>
+                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4 opacity-0 translate-y-4" id="hero-buttons">
+                    <a href="#portfolio" class="px-8 py-3.5 rounded-full bg-indigo-600 text-white font-bold shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 hover:scale-105 transition-all duration-200">View Work</a>
+                    <a href="#contact" class="px-8 py-3.5 rounded-full bg-transparent text-white font-bold border border-gray-600 hover:bg-gray-800 hover:border-gray-500 transition-all duration-200">Get in Touch</a>
                 </div>
             </div>
-
+            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce opacity-50">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </div>
         </section>
 
-        <!-- Portfolio Grid Section -->
-        <section id="portfolio" class="relative py-16 sm:py-24 bg-gray-900 overflow-hidden">
-            
-            <!-- Top Slat Background Pattern -->
-            <div class="showreel-bg-pattern"></div>
-
+        <!-- Portfolio -->
+        <section id="portfolio" class="relative py-20 sm:py-32 bg-gray-900 overflow-hidden">
+            <div class="bg-pattern showreel-bg-pattern"></div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 section-content hide-initial relative z-10">
                 
-                <!-- 1. Showreel Section -->
+                <!-- Showreel -->
                 <div class="text-center mb-12">
-                    <h3 class="text-3xl sm:text-4xl font-extrabold text-glow">Showreel</h3>
-                    
-                    <!-- TUBELIGHT SWITCH -->
-                    <div class="tubelight-container" id="cinema-toggle" title="Dim the lights">
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-2 text-glow">Showreel</h2>
+                    <div class="tubelight-container" id="cinema-toggle" role="button" aria-pressed="false" tabindex="0" title="Toggle Cinema Mode">
                         <div class="tubelight"></div>
                         <span class="tubelight-label">Dim Lights</span>
                     </div>
                 </div>
 
-                <!-- UPDATED: Added ID 'showreel-container' to the direct parent div -->
-                <div id="showreel-container" class="max-w-3xl mx-auto mb-10">
-                    <!-- Added ID #showreel-wrapper for Cinema Mode targeting -->
-                    <div id="showreel-wrapper" class="relative p-2 rounded-2xl backdrop-blur-xl bg-white/5 border border-white/5 before:absolute before:inset-0 before:rounded-2xl before:bg-gradient-to-r before:from-indigo-500/25 before:to-purple-500/25 before:blur-[55px] before:-z-10 transition-all duration-500">
-                        <div class="video-placeholder">
-                            <!-- UPDATED MAIN SHOWREEL: Added id, muted for autoplay policy, and playsinline -->
-                            <video id="main-showreel" controls muted playsinline poster="https://placehold.co/1920x1080/1f2937/6366f1?text=Showreel+Loading..." class="w-full h-full object-cover">
-                                <source src="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/Video%20ShowReel.mp4" type="video/mp4">
+                <div id="showreel-container" class="max-w-4xl mx-auto mb-16">
+                    <!-- showreel-wrapper set to opacity 0 in CSS initially -->
+                    <div id="showreel-wrapper" class="rounded-xl p-1 bg-gradient-to-br from-gray-700 to-gray-900 shadow-2xl transition-transform duration-500">
+                        <div class="video-wrapper relative group">
+                            <!-- Main Showreel Video -->
+                            <video id="main-showreel" class="w-full h-full object-cover opacity-0 transition-opacity duration-500" muted playsinline loop controls>
+                                <source id="main-showreel-source" src="https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/Video%20ShowReel.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 2. More Projects Carousel (Coverflow) -->
-                <section id="more-projects" class="mt-24">
-                    <div class="flex justify-center relative z-20" style="transform: translateY(15px);">
-                        <h3 class="text-3xl sm:text-4xl font-semibold text-glow -mb-12">More Projects</h3>
-                    </div>
-
-                    <div class="relative flex justify-center w-full">
-                        <div id="coverflow-wrap" class="relative w-full max-w-6xl h-[680px] mx-auto cursor-none carousel-hidden">
-                            <div id="coverflow" class="absolute inset-0 pointer-events-auto"></div>
                             
-                            <!-- Modern Arrows -->
-                            <!-- UPDATED: Lowered by another 4px (from bottom-[32px] to bottom-[28px]) -->
-                            <div class="absolute left-1/2 -translate-x-1/2 bottom-[28px] flex gap-8 z-30">
-                                <button id="prevCF" class="cf-arrow" aria-label="Previous">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
-                                </button>
-                                <button id="nextCF" class="cf-arrow" aria-label="Next">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                            <!-- Mute Toggle Overlay -->
+                            <div class="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                <button id="mute-toggle" class="bg-black/60 hover:bg-indigo-600 text-white p-2 rounded-full backdrop-blur-sm transition-colors">
+                                    <svg id="icon-muted" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" /></svg>
+                                    <svg id="icon-sound" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg>
                                 </button>
                             </div>
                         </div>
                     </div>
-                </section>
+                </div>
+
+                <!-- CAROUSEL -->
+                <div id="more-projects" class="mt-24 text-center">
+                    <h3 class="text-3xl font-bold text-white mb-2">Edits</h3>
+                    <p class="text-gray-400 mb-10 text-sm uppercase tracking-widest visually-hidden">Swipe to Explore</p>
+
+                    <div class="relative w-full">
+                        <div id="coverflow-wrap" class="relative w-full max-w-6xl mx-auto hide-initial opacity-0 transition-opacity duration-1000">
+                            <div id="coverflow" class="absolute inset-0 cursor-grab active:cursor-grabbing">
+                                <!-- Items injected by JS -->
+                            </div>
+                            
+                            <!-- MOVED BUTTONS OUTSIDE & BELOW -->
+                            <div class="absolute -bottom-16 left-1/2 -translate-x-1/2 flex gap-8 z-200 pointer-events-none">
+                                <button id="prevCF" class="cf-arrow pointer-events-auto shadow-lg" aria-label="Previous">
+                                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                                </button>
+                                <button id="nextCF" class="cf-arrow pointer-events-auto shadow-lg" aria-label="Next">
+                                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
             </div>
         </section>
 
-        <!-- About Section -->
-        <section id="about" class="py-16 sm:py-24">
+        <!-- About -->
+        <section id="about" class="py-20 sm:py-32 bg-gray-900 border-t border-gray-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 section-content hide-initial">
-                <div class="lg:flex lg:items-start lg:space-x-12">
-                    <div class="lg:w-1/2">
-                        <h3 class="text-4xl font-extrabold text-white mb-8">The Editor Behind the Screen</h3>
-                        
-                        <div class="space-y-6">
-                            <!-- 1. Origin -->
+                <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-start">
+                    <div class="mb-12 lg:mb-0">
+                        <h3 class="text-3xl sm:text-4xl font-extrabold text-white mb-8">The Editor Behind the Screen</h3>
+                        <div class="space-y-8">
                             <div class="flex gap-4">
-                                <div class="flex-shrink-0 mt-1">
-                                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-500/10 text-indigo-400 ring-1 ring-indigo-500/50">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="text-lg font-bold text-white">Passion for Video</h4>
-                                    <p class="text-gray-400 mt-1 leading-relaxed">My journey began with editing for YouTube, where I discovered my deep interest in visual storytelling.</p>
-                                </div>
+                                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 flex-shrink-0"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                                <div><h4 class="text-xl font-bold text-white mb-2">Visual Storytelling</h4><p class="text-gray-400">My journey began with YouTube content creation, evolving into a passion for crafting narratives that engage and retain audiences.</p></div>
                             </div>
-
-                            <!-- 2. Focus -->
                             <div class="flex gap-4">
-                                <div class="flex-shrink-0 mt-1">
-                                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-500/10 text-indigo-400 ring-1 ring-indigo-500/50">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="text-lg font-bold text-white">Specialized Edits</h4>
-                                    <p class="text-gray-400 mt-1 leading-relaxed">I specialize in creating high-impact Real Estate walkthroughs and engaging UGC edits.</p>
-                                </div>
-                            </div>
-
-                            <!-- 3. Tools -->
-                            <div class="flex gap-4">
-                                <div class="flex-shrink-0 mt-1">
-                                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-500/10 text-indigo-400 ring-1 ring-indigo-500/50">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="text-lg font-bold text-white">Clean Aesthetics</h4>
-                                    <p class="text-gray-400 mt-1 leading-relaxed">Using Premiere Pro and After Effects, I craft videos that are clean, smooth, and visually engaging.</p>
-                                </div>
-                            </div>
-
-                            <!-- 4. Delivery -->
-                            <div class="flex gap-4">
-                                <div class="flex-shrink-0 mt-1">
-                                    <div class="flex items-center justify-center w-10 h-10 rounded-full bg-indigo-500/10 text-indigo-400 ring-1 ring-indigo-500/50">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <div>
-                                    <h4 class="text-lg font-bold text-white">Client Focused</h4>
-                                    <p class="text-gray-400 mt-1 leading-relaxed">I deliver fast results under tight deadlines with clear communication to match your vision.</p>
-                                </div>
+                                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 flex-shrink-0"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg></div>
+                                <div><h4 class="text-xl font-bold text-white mb-2">Niche Expertise</h4><p class="text-gray-400">Specialized in high-end Real Estate walkthroughs and fast-paced UGC/Short-form content designed for viral growth.</p></div>
                             </div>
                         </div>
-
                     </div>
-                    <div class="lg:w-1/2 mt-10 lg:mt-0">
-                        <div class="bg-gray-800 p-8 rounded-xl shadow-xl border border-gray-700/50">
-                            <h4 class="text-2xl font-bold text-indigo-400 mb-6">Technical Arsenal</h4>
-                            
-                            <!-- Software Row -->
-                            <div class="mb-8">
-                                <h5 class="text-xs uppercase tracking-wider text-gray-500 font-bold mb-4">Software Proficiency</h5>
-                                <div class="grid grid-cols-2 gap-4">
-                                    <!-- Premiere Pro Card -->
-                                    <div class="group p-4 bg-gray-900/50 hover:bg-gray-900 transition-colors rounded-lg border border-gray-700 flex items-center space-x-4">
-                                        <div class="w-12 h-12 bg-purple-900/80 text-purple-200 flex items-center justify-center font-bold text-xl rounded-lg shadow-lg border border-purple-500/30 group-hover:scale-105 transition-transform">
-                                            Pr
-                                        </div>
-                                        <div>
-                                            <span class="block text-gray-200 font-bold text-sm">Premiere Pro</span>
-                                            <span class="block text-gray-500 text-xs">Advanced</span>
-                                        </div>
-                                    </div>
-                                    
-                                    <!-- After Effects Card -->
-                                    <div class="group p-4 bg-gray-900/50 hover:bg-gray-900 transition-colors rounded-lg border border-gray-700 flex items-center space-x-4">
-                                        <div class="w-12 h-12 bg-indigo-900/80 text-indigo-200 flex items-center justify-center font-bold text-xl rounded-lg shadow-lg border border-indigo-500/30 group-hover:scale-105 transition-transform">
-                                            Ae
-                                        </div>
-                                        <div>
-                                            <span class="block text-gray-200 font-bold text-sm">After Effects</span>
-                                            <span class="block text-gray-500 text-xs">Motion FX</span>
-                                        </div>
-                                    </div>
-
-                                    <!-- DaVinci Resolve Card -->
-                                    <div class="group p-4 bg-gray-900/50 hover:bg-gray-900 transition-colors rounded-lg border border-gray-700 flex items-center space-x-4">
-                                        <div class="w-12 h-12 bg-rose-900/80 text-rose-200 flex items-center justify-center font-bold text-xl rounded-lg shadow-lg border border-rose-500/30 group-hover:scale-105 transition-transform">
-                                            Dv
-                                        </div>
-                                        <div>
-                                            <span class="block text-gray-200 font-bold text-sm">DaVinci Resolve</span>
-                                            <span class="block text-gray-500 text-xs">Color Grading</span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Photoshop Card -->
-                                    <div class="group p-4 bg-gray-900/50 hover:bg-gray-900 transition-colors rounded-lg border border-gray-700 flex items-center space-x-4">
-                                        <div class="w-12 h-12 bg-blue-900/80 text-blue-200 flex items-center justify-center font-bold text-xl rounded-lg shadow-lg border border-blue-500/30 group-hover:scale-105 transition-transform">
-                                            Ps
-                                        </div>
-                                        <div>
-                                            <span class="block text-gray-200 font-bold text-sm">Photoshop</span>
-                                            <span class="block text-gray-500 text-xs">Design Assets</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Technical Tags -->
-                            <div>
-                                <h5 class="text-xs uppercase tracking-wider text-gray-500 font-bold mb-4">Core Competencies</h5>
-                                <div class="flex flex-wrap gap-2">
-                                    <span class="px-3 py-1.5 rounded-md bg-gray-700/50 border border-gray-600 text-indigo-200 text-sm font-medium hover:border-indigo-500/50 transition-colors">Motion Graphics</span>
-                                    <span class="px-3 py-1.5 rounded-md bg-gray-700/50 border border-gray-600 text-indigo-200 text-sm font-medium hover:border-indigo-500/50 transition-colors">Color Grading</span>
-                                    <span class="px-3 py-1.5 rounded-md bg-gray-700/50 border border-gray-600 text-indigo-200 text-sm font-medium hover:border-indigo-500/50 transition-colors">Sound Design</span>
-                                    <span class="px-3 py-1.5 rounded-md bg-gray-700/50 border border-gray-600 text-indigo-200 text-sm font-medium hover:border-indigo-500/50 transition-colors">Visual Effects</span>
-                                    <span class="px-3 py-1.5 rounded-md bg-gray-700/50 border border-gray-600 text-indigo-200 text-sm font-medium hover:border-indigo-500/50 transition-colors">Seamless Transitions</span>
-                                    <span class="px-3 py-1.5 rounded-md bg-gray-700/50 border border-gray-600 text-indigo-200 text-sm font-medium hover:border-indigo-500/50 transition-colors">Text Animation</span>
-                                    <span class="px-3 py-1.5 rounded-md bg-gray-700/50 border border-gray-600 text-indigo-200 text-sm font-medium hover:border-indigo-500/50 transition-colors">Pacing & Rhythm</span>
-                                    <span class="px-3 py-1.5 rounded-md bg-gray-700/50 border border-gray-600 text-indigo-200 text-sm font-medium hover:border-indigo-500/50 transition-colors">Storytelling</span>
-                                </div>
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700 shadow-xl">
+                        <h4 class="text-2xl font-bold text-white mb-6">Technical Arsenal</h4>
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <div class="p-4 rounded-xl bg-gray-900 border border-gray-700 flex items-center gap-3"><div class="font-black text-purple-400 text-lg">Pr</div><div class="text-sm font-semibold text-gray-200">Premiere Pro</div></div>
+                            <div class="p-4 rounded-xl bg-gray-900 border border-gray-700 flex items-center gap-3"><div class="font-black text-indigo-400 text-lg">Ae</div><div class="text-sm font-semibold text-gray-200">After Effects</div></div>
+                            <div class="p-4 rounded-xl bg-gray-900 border border-gray-700 flex items-center gap-3"><div class="font-black text-blue-400 text-lg">Ps</div><div class="text-sm font-semibold text-gray-200">Photoshop</div></div>
+                            <div class="p-4 rounded-xl bg-gray-900 border border-gray-700 flex items-center gap-3"><div class="font-black text-rose-400 text-lg">Dv</div><div class="text-sm font-semibold text-gray-200">Resolve</div></div>
+                        </div>
+                        <div>
+                            <h5 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Capabilities</h5>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-gray-700/50 rounded-lg text-xs font-medium text-gray-300">Motion Graphics</span>
+                                <span class="px-3 py-1 bg-gray-700/50 rounded-lg text-xs font-medium text-gray-300">Color Grading</span>
+                                <span class="px-3 py-1 bg-gray-700/50 rounded-lg text-xs font-medium text-gray-300">Sound Design</span>
+                                <span class="px-3 py-1 bg-gray-700/50 rounded-lg text-xs font-medium text-gray-300">3D Camera Tracking</span>
                             </div>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- Contact Section -->
-            <section id="contact" class="relative py-16 sm:py-24 bg-gray-900 overflow-hidden">
-                
-                <!-- Bottom Slat Background Pattern -->
-                <div class="contact-bg-pattern"></div>
-
-                <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8 text-center section-content hide-initial relative z-10">
-                    <h3 class="text-4xl font-extrabold text-white">Contact</h3>
-                    <p class="mt-4 text-xl text-gray-400 mb-12">Reach me directly via WhatsApp or email.</p>
-                    <div class="mt-8 flex flex-col sm:flex-row justify-center space-y-6 sm:space-y-0 sm:space-x-8">
-                        <a href="https://wa.me/7284020388" target="_blank" class="flex items-center justify-center px-6 py-2 text-base font-bold rounded-xl shadow-2xl text-white bg-green-600 hover:bg-green-700 transition duration-150 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-green-500/50">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="mr-3">
-                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                            </svg>
-                            WhatsApp
-                        </a>
-                        <a href="mailto:amitparmar7990@gmail.com" class="flex items-center justify-center px-6 py-2 text-base font-bold rounded-xl shadow-2xl text-indigo-400 border-2 border-indigo-600 bg-gray-800 hover:bg-gray-700 transition duration-150 transform hover:scale-105 focus:outline-none focus:ring-4 focus:ring-indigo-500/50">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-6 h-6 mr-3"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.625a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" /></svg>
-                            Email
-                        </a>
-                    </div>
+        <!-- Contact -->
+        <section id="contact" class="relative py-20 sm:py-32 bg-gray-900 overflow-hidden">
+            <div class="contact-glow"></div>
+            <div class="bg-pattern contact-bg-pattern"></div>
+            <div class="max-w-2xl mx-auto px-4 text-center section-content hide-initial relative z-10">
+                <h3 class="text-4xl font-extrabold text-white mb-4">Let's Create Together</h3>
+                <p class="text-xl text-gray-400 mb-10">Ready to elevate your content? Reach out directly via WhatsApp or Email.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
+                    <a href="https://wa.me/917284020388" target="_blank" class="group flex items-center justify-center px-8 py-4 rounded-xl bg-green-600 text-white font-bold text-lg shadow-lg hover:bg-green-700 transition-all duration-200">
+                        <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        WhatsApp
+                    </a>
+                    <a href="mailto:amitparmar7990@gmail.com" class="group flex items-center justify-center px-8 py-4 rounded-xl bg-gray-800 text-indigo-400 font-bold text-lg border border-gray-700 hover:bg-gray-700 transition-all duration-200">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        Email Me
+                    </a>
                 </div>
-            </section>
+            </div>
+        </section>
+    </main>
 
-    <!-- Footer --><footer class="bg-gray-900 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-500 text-sm">&copy; 2025 Amit. All Rights Reserved.</p>
-        </div>
+    <footer class="bg-gray-900 border-t border-gray-800 py-8 text-center">
+        <p class="text-gray-500 text-sm">&copy; 2025 Amit. All Rights Reserved.</p>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- MAIN SCRIPT -->
     <script>
-        // ---------------- INTRO ANIMATION & TYPING ---------------- //
-        window.addEventListener('load', () => {
-            const topPanel = document.querySelector('.intro-top');
-            const bottomPanel = document.querySelector('.intro-bottom');
-            const icon = document.querySelector('.intro-icon');
-            const overlay = document.getElementById('intro-overlay');
-
+        document.addEventListener('DOMContentLoaded', () => {
+            // === INTRO ===
             setTimeout(() => {
-                if(topPanel) topPanel.style.transform = 'translateY(-100%)';
-                if(bottomPanel) bottomPanel.style.transform = 'translateY(100%)';
-
-                if(icon) {
-                    icon.style.opacity = '0';
-                    icon.style.transform = 'translate(-50%, -50%) scale(0.6)';
-                }
-
+                document.querySelector('.intro-top').style.transform = 'translateY(-100%)';
+                document.querySelector('.intro-bottom').style.transform = 'translateY(100%)';
+                document.querySelector('.intro-icon').style.opacity = '0';
                 setTimeout(() => {
-                    if(overlay) overlay.style.display = 'none';
+                    document.getElementById('intro-overlay').style.display = 'none';
+                    animateHero();
+                }, 500);
+            }, 200);
 
-                    const title = document.getElementById('hero-title');
-                    if(title) {
-                        title.style.opacity = 1;
-                        title.style.transform = 'translateY(0)';
-                        typeHeroText();
-                    } else {
-                        revealHeroContent();
-                    }
-                    
-                    initScrollObserver();
-                }, 800);
-            }, 500); 
-        });
-
-        function typeHeroText() {
-            const title = document.getElementById('hero-title');
-            const fullText = "Real to Reel";
-            const typingSpeed = 100; 
-            
-            title.classList.add('typing-cursor');
-            title.textContent = ""; 
-
-            let i = 0;
-            function type() {
-                if (i < fullText.length) {
-                    title.textContent += fullText.charAt(i);
-                    i++;
-                    setTimeout(type, typingSpeed);
-                } else {
-                    setTimeout(() => {
-                        title.classList.remove('typing-cursor');
-                        revealHeroContent();
-                    }, 500);
+            function animateHero() {
+                const title = document.getElementById('hero-title');
+                const txt = "Real to Reel";
+                title.style.opacity = 1; title.style.transform = 'translateY(0)';
+                title.classList.add('typing-cursor');
+                let i = 0;
+                function type() {
+                    if (i < txt.length) { title.textContent += txt.charAt(i); i++; setTimeout(type, 80); }
+                    else { setTimeout(() => { title.classList.remove('typing-cursor'); revealHero(); }, 300); }
                 }
+                type();
             }
-            type();
-        }
 
-        function revealHeroContent() {
-            const sub = document.getElementById('hero-sub');
-            const buttons = document.getElementById('hero-buttons');
-            
-            if(sub) {
-                sub.style.opacity = 1;
-                sub.style.transform = 'translateY(0)';
-            }
-            if(buttons) {
-                buttons.style.opacity = 1;
-                buttons.style.transform = 'translateY(0)';
-            }
-        }
-
-        // --- CUSTOM CURSOR ---
-        const cursorDot = document.querySelector('.cursor-dot');
-        const cursorRing = document.querySelector('.cursor-ring');
-        const interactiveElements = 'a, button, .video-placeholder, .cf-card, input, textarea, video';
-        const body = document.body;
-        
-        const isMobile = window.innerWidth <= 640 || ('ontouchstart' in window);
-
-        if (!isMobile) {
-            let mouseX = 0, mouseY = 0;
-            let ringX = 0, ringY = 0;
-            const smoothFactor = 0.15;
-
-            document.addEventListener('mousemove', (e) => {
-                mouseX = e.clientX;
-                mouseY = e.clientY;
-                cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-            });
-
-            function animateCursor() {
-                ringX += (mouseX - ringX) * smoothFactor;
-                ringY += (mouseY - ringY) * smoothFactor;
-                cursorRing.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
-                requestAnimationFrame(animateCursor);
-            }
-            animateCursor();
-
-            document.querySelectorAll(interactiveElements).forEach(el => {
-                el.addEventListener('mouseenter', () => body.classList.add('cursor-pointer-active'));
-                el.addEventListener('mouseleave', () => body.classList.remove('cursor-pointer-active'));
-            });
-        } else {
-            if (cursorDot) cursorDot.remove();
-            if (cursorRing) cursorRing.remove();
-            body.style.cursor = 'auto';
-            document.querySelectorAll(interactiveElements).forEach(el => {
-                el.style.cursor = 'pointer';
-            });
-        }
-
-        // --- Scroll Observer ---
-        function initScrollObserver() {
-            const animatedSections = document.querySelectorAll('.section-content');
-            const carouselWrapper = document.getElementById('coverflow-wrap');
-            
-            // 1. Animation Observer (Fade in sections)
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        if (entry.target.id === 'coverflow-wrap') {
-                            entry.target.classList.remove('carousel-hidden');
-                            entry.target.classList.add('carousel-visible');
-                        } else {
-                            entry.target.classList.remove('hide-initial');
-                            entry.target.classList.add('animate-in');
-                        }
-                        observer.unobserve(entry.target);
-                    }
+            function revealHero() {
+                ['hero-sub', 'hero-buttons'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }
                 });
-            }, {
-                rootMargin: '0px 0px -100px 0px', 
-                threshold: 0.1 
-            });
-
-            animatedSections.forEach(section => {
-                if (!section.closest('#hero')) {
-                    observer.observe(section);
-                }
-            });
-            
-            if (carouselWrapper) {
-                observer.observe(carouselWrapper);
+                initApp();
             }
 
-            // 2. Showreel Autoplay Observer (Play when "approached"/visible)
-            const showreel = document.getElementById('main-showreel');
-            if (showreel) {
-                const videoObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            // Only autoplay if NOT in cinema mode (user might have paused it manually)
-                            // Or we can enforce it. Let's keep standard behavior.
-                            showreel.play().catch(e => console.log("Autoplay prevented:", e));
-                        } else {
-                            showreel.pause();
+            // === MAIN APP INIT ===
+            function initApp() {
+                initHeader();
+                initScrollObserver();
+                initCarousel();
+                initCustomCursor();
+                initCinema();
+            }
+
+            // === HEADER / MOBILE MENU ===
+            function initHeader() {
+                const btn = document.getElementById('mobile-menu-btn');
+                const menu = document.getElementById('mobile-menu');
+                const links = document.querySelectorAll('.mobile-link');
+
+                if(btn && menu) {
+                    btn.addEventListener('click', () => {
+                        menu.classList.toggle('hidden');
+                    });
+                    links.forEach(l => {
+                        l.addEventListener('click', () => menu.classList.add('hidden'));
+                    });
+                }
+            }
+
+            // === SCROLL OBSERVER & VIDEO FADE-IN ===
+            function initScrollObserver() {
+                const obs = new IntersectionObserver((entries, o) => {
+                    entries.forEach(e => {
+                        if (e.isIntersecting) {
+                            e.target.classList.remove('hide-initial');
+                            e.target.classList.add('animate-in');
+                            if(e.target.id === 'coverflow-wrap') e.target.style.opacity = '1';
+                            o.unobserve(e.target);
                         }
                     });
-                }, { threshold: 0.5 }); 
-                videoObserver.observe(showreel);
-            }
-            
-            // 3. CINEMA MODE LOGIC
-            const cinemaToggle = document.getElementById('cinema-toggle');
-            const cinemaOverlay = document.getElementById('cinema-overlay');
-            
-            function closeCinemaMode() {
-                if (document.body.classList.contains('cinema-active')) {
-                    document.body.classList.remove('cinema-active');
-                }
-            }
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.section-content, #coverflow-wrap').forEach(el => obs.observe(el));
 
-            if (cinemaToggle) {
-                cinemaToggle.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    document.body.classList.toggle('cinema-active');
-                });
-                
-                if (cinemaOverlay) {
-                    cinemaOverlay.addEventListener('click', closeCinemaMode);
-                }
-            }
-
-            // Break dim on scroll (Desktop & Mobile)
-            window.addEventListener('scroll', () => {
-                if (document.body.classList.contains('cinema-active')) {
-                    closeCinemaMode();
-                }
-            }, { passive: true });
-            
-            // Break dim on touch move (Mobile swipe)
-            window.addEventListener('touchmove', () => {
-                if (document.body.classList.contains('cinema-active')) {
-                    closeCinemaMode();
-                }
-            }, { passive: true });
-            
-            // Break dim on escape key
-            window.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') closeCinemaMode();
-            });
-
-            setTimeout(() => {
-                animatedSections.forEach(section => {
-                    const rect = section.getBoundingClientRect();
-                    const isVisible = (rect.top < window.innerHeight) && (rect.bottom > 0);
-                    if (isVisible && section.classList.contains('hide-initial')) {
-                        section.classList.remove('hide-initial');
-                        section.classList.add('animate-in');
-                        observer.unobserve(section);
-                    }
-                });
-                if (carouselWrapper) {
-                    const rect = carouselWrapper.getBoundingClientRect();
-                    const isVisible = (rect.top < window.innerHeight) && (rect.bottom > 0);
-                    if (isVisible && carouselWrapper.classList.contains('carousel-hidden')) {
-                        carouselWrapper.classList.remove('carousel-hidden');
-                        carouselWrapper.classList.add('carousel-visible');
-                        observer.unobserve(carouselWrapper);
-                    }
-                }
-            }, 50);
-        }
-
-        // ================= CAROUSEL JS =================
-        (() => {
-            // UPDATED CONTENTS: Now 6 items
-            const contents = [
-                'https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/%5BZM%5D%20-%20%5BGrossmanPA%5D%20-%20%5BAD%205%5D%20-%20Damage%20review_1.mp4', 
-                'https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/%5BZM%5D%20-%20%5BCH%5D%20-%20Removal%20Process_1.mp4', 
-                'https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/GYM%20Viral%20Effect.mp4', 
-                'https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/Food%20%20ShortForm.mp4', 
-                'https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/3D%20Edit.mp4',
-                'https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/Website%20Header2.mp4'
-            ];
-            
-            const ORIGINAL_COUNT = contents.length;
-            const TRANS_DUR = 500;
-            // Place center roughly in middle of original set
-            const CENTER_POS_IN_ORIGINAL = Math.floor(ORIGINAL_COUNT / 2); 
-
-            const coverflow = document.getElementById('coverflow');
-            if (!coverflow) return;
-            
-            function makeItem(content, sourceIndex) {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'cf-item';
-                wrapper.dataset.src = sourceIndex;
-                const card = document.createElement('div');
-                card.className = 'cf-card';
-                
-                // Create VIDEO element instead of IMG
-                const video = document.createElement('video');
-                video.src = content;
-                video.muted = true; // Required for autoplay
-                video.loop = true;
-                video.playsInline = true;
-                video.controls = false; // Hide controls for clean look
-                // Prevent video capturing clicks so we can swipe
-                video.style.pointerEvents = 'none'; 
-                
-                card.appendChild(video);
-                wrapper.appendChild(card);
-                return wrapper;
-            }
-
-            const domItems = [];
-            // Create 3 copies for infinite loop illusion
-            for (let copy = 0; copy < 3; copy++) {
-                for (let i = 0; i < ORIGINAL_COUNT; i++) {
-                    const node = makeItem(contents[i], i);
-                    coverflow.appendChild(node);
-                    domItems.push(node);
-                }
-            }
-
-            let current = ORIGINAL_COUNT + CENTER_POS_IN_ORIGINAL;
-
-            function getSpacing() {
-                const wrap = document.getElementById("coverflow-wrap");
-                const W = wrap ? wrap.offsetWidth : 1200; 
-                return Math.round(Math.min(360, Math.max(160, W * 0.25))); 
-            }
-            
-            function getX(dist, spacing) {
-                if (dist === 1) return spacing * 1.5; 
-                if (dist === 2) return spacing * 3.2; 
-                return spacing * 4.0; 
-            }
-
-            function render(instant = false) {
-                const spacing = getSpacing();
-
-                domItems.forEach((el, i) => {
-                    const offset = i - current;
-                    const dist = Math.abs(offset);
-                    const card = el.querySelector('.cf-card');
-                    const video = el.querySelector('video');
-                    
-                    el.style.opacity = '0';
-                    el.style.zIndex = '0';
-                    if (card) card.classList.remove('anim-floating'); 
-
-                    // Positional Logic
-                    if (offset < 0) {
-                        el.style.transform = `translateX(-50%) translateX(${-spacing * 5}px) translateZ(-1000px) scale(0.5) translateY(-50%)`;
-                    } else {
-                        el.style.transform = `translateX(-50%) translateX(${spacing * 5}px) translateZ(-1000px) scale(0.5) translateY(-50%)`;
-                    }
-                    
-                    // CENTER ITEM
-                    if (offset === 0) {
-                        el.style.transform = `translateX(-50%) translateX(0px) scale(1) rotateY(0deg) translateZ(100px) translateY(-50%)`;
-                        el.style.opacity = '1';
-                        el.style.zIndex = 50;
-                        if (card) card.classList.add('anim-floating'); 
-                        
-                        if(card) {
-                            card.style.boxShadow = '0 0 25px rgba(99, 102, 241, 0.7)';
-                            card.style.borderColor = 'rgba(99, 102, 241, 0.8)';
-                            card.style.filter = 'brightness(1.1)';
+                // ScrollSpy
+                const navLinks = document.querySelectorAll('.nav-link');
+                const spy = new IntersectionObserver((entries) => {
+                    entries.forEach(e => {
+                        if(e.isIntersecting) {
+                            navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${e.target.id}`));
                         }
-                        
-                        // PLAY VIDEO (Autoplay center)
-                        if (video) {
-                            // Must be muted for autoplay to work reliably
-                            video.muted = true; 
-                            const playPromise = video.play();
-                            if (playPromise !== undefined) {
-                                playPromise.catch(error => {
-                                    // Auto-play was prevented
-                                    console.log("Autoplay prevented");
-                                });
+                    });
+                }, { threshold: 0.3 });
+                document.querySelectorAll('section').forEach(s => spy.observe(s));
+
+                // SHOWREEL LOADING AND PLAYBACK LOGIC
+                const showreel = document.getElementById('main-showreel');
+                const wrapper = document.getElementById('showreel-wrapper');
+                
+                showreel.addEventListener('loadeddata', () => {
+                    // Start playing and fade in once video metadata and some data are loaded
+                    showreel.play().catch(e => console.log("Showreel Autoplay prevented:", e));
+                    wrapper.style.opacity = '1';
+                    showreel.style.opacity = '1';
+                });
+
+                showreel.load();
+                
+                // Cinema mode playback pause/play
+                const cinemaObserver = new MutationObserver(mutations => {
+                    mutations.forEach(mutation => {
+                        if (mutation.attributeName === 'class') {
+                            if (document.body.classList.contains('cinema-active')) {
+                                showreel.play().catch(e => console.log("Showreel Play Error:", e));
+                            } else {
+                                showreel.pause();
                             }
                         }
-                    } 
-                    // SIDE ITEMS
-                    else {
-                        // PAUSE VIDEO (Pause sides)
-                        if (video) {
-                            video.pause();
-                            video.currentTime = 0; // Optional: reset video
-                        }
+                    });
+                });
+                cinemaObserver.observe(document.body, { attributes: true });
 
-                        if (offset > 0 && offset <= 2) {
-                            const d = offset;
-                            const tx = getX(d, spacing);
-                            const scale = 1 - (d * 0.15);
-                            const ry = -(20 + (d * 5)); 
-                            const z = 100 - (d * 60); 
-                            
-                            el.style.transform = `translateX(-50%) translateX(${tx}px) scale(${scale}) rotateY(${ry}deg) translateZ(${z}px) translateY(-50%)`;
-                            el.style.opacity = d === 1 ? '0.7' : '0.1'; 
-                            el.style.zIndex = 50 - d;
-                        } 
-                        else if (offset < 0 && offset >= -2) {
-                            const d = Math.abs(offset);
-                            const tx = -getX(d, spacing);
-                            const scale = 1 - (d * 0.15); 
-                            const ry = 20 + (d * 5); 
-                            const z = 100 - (d * 60);
+                // Mute/Unmute toggle for showreel
+                const muteBtn = document.getElementById('mute-toggle');
+                let isMuted = true;
+                if(muteBtn) {
+                    muteBtn.addEventListener('click', () => {
+                        isMuted = !isMuted;
+                        showreel.muted = isMuted;
+                        showreel.volume = isMuted ? 0 : 1; 
+                        document.getElementById('icon-muted').classList.toggle('hidden', !isMuted);
+                        document.getElementById('icon-sound').classList.toggle('hidden', isMuted);
+                    });
+                }
+            }
 
-                            el.style.transform = `translateX(-50%) translateX(${tx}px) scale(${scale}) rotateY(${ry}deg) translateZ(${z}px) translateY(-50%)`;
-                            el.style.opacity = d === 1 ? '0.7' : '0.1';
-                            el.style.zIndex = 50 - d;
-                        }
+            // === CINEMA MODE ===
+            function initCinema() {
+                const toggle = document.getElementById('cinema-toggle');
+                const body = document.body;
+                
+                // Cinema toggle
+                toggle.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    body.classList.toggle('cinema-active');
+                });
 
-                        if(card) {
-                            card.style.boxShadow = '0 6px 24px rgba(0,0,0,0.6) inset';
-                            card.style.borderColor = 'rgba(255,255,255,0.04)';
-                            card.style.filter = 'brightness(1)';
-                        }
-                    }
+                document.getElementById('cinema-overlay').addEventListener('click', () => body.classList.remove('cinema-active'));
+                window.addEventListener('keydown', (e) => { if(e.key === 'Escape') body.classList.remove('cinema-active'); });
+            }
+
+            // === CUSTOM CURSOR ===
+            function initCustomCursor() {
+                if (!window.matchMedia("(pointer: fine)").matches) return;
+                const dot = document.querySelector('.cursor-dot');
+                const ring = document.querySelector('.cursor-ring');
+                let mx = 0, my = 0, rx = 0, ry = 0;
+                
+                document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`; });
+                function loop() {
+                    rx += (mx - rx) * 0.2; ry += (my - ry) * 0.2;
+                    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+                    requestAnimationFrame(loop);
+                }
+                loop();
+                
+                document.querySelectorAll('a, button, input, video').forEach(el => {
+                    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-pointer-active'));
+                    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-pointer-active'));
+                });
+            }
+
+            // === EFFICIENT CAROUSEL (Deferred Loading for Native Video) ===
+            function initCarousel() {
+                // All video IDs are now data objects (type: 'webm' assumed for CDN links)
+                const videoData = [
+                    { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/Food%20Shortform.webm' },
+                    { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/Gym%20Viral%20Effect.webm' }, 
+                    { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/Website%20Header2.webm' },
+                    { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/%5BZm%5D%20-%20%5BCh%5D%20-%20Removal%20Process.webm' },
+                    { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/resized.webm' },
+                    { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/3D%20Edit.webm' } // Added an extra link to ensure 6 videos total, reusing the previous test link
+                ];
+
+                const container = document.getElementById('coverflow');
+                if(!container) return;
+                
+                container.innerHTML = '';
+
+                // Create Item Objects and Placeholder HTML
+                const items = videoData.map((data, i) => {
+                    const el = document.createElement('div');
+                    el.className = 'cf-item';
+                    el.style.opacity = 0; 
                     
-                    if (instant) {
-                        el.style.transition = 'none';
-                    } else {
-                        el.style.transition = '';
-                    }
+                    el.innerHTML = `
+                        <div class="cf-card">
+                            <div class="cf-placeholder">LOADING...</div>
+                            <div class="cf-overlay"></div>
+                            <!-- video will be injected later -->
+                        </div>`;
+                        
+                    container.appendChild(el);
+                    
+                    // Reveal the card placeholder immediately
+                    setTimeout(() => { el.style.opacity = 1; }, 300 + (i * 100));
+                    
+                    return { el, data, index: i, loaded: false, card: el.querySelector('.cf-card') };
                 });
-            }
 
-            let isAnimating = false;
-            function goTo(newIndex) {
-                if (isAnimating) return;
-                isAnimating = true;
-                current = newIndex;
-                render(false);
-
-                setTimeout(() => {
-                    // Infinite loop jumping logic
-                    if (current < ORIGINAL_COUNT) {
-                        current += ORIGINAL_COUNT;
-                        render(true); 
-                    } else if (current >= ORIGINAL_COUNT * 2) {
-                        current -= ORIGINAL_COUNT;
-                        render(true); 
+                let currentIndex = 0;
+                let isDragging = false;
+                let startX = 0;
+                
+                // Helper to create and inject the native video element
+                function loadMediaPlayer(item) {
+                    if (item.loaded) return;
+                    
+                    if (item.data.type === 'webm') {
+                        // NATIVE <VIDEO> TAG
+                        const mediaElement = document.createElement('video');
+                        mediaElement.src = item.data.id;
+                        mediaElement.muted = true;
+                        mediaElement.loop = true;
+                        mediaElement.playsInline = true;
+                        mediaElement.autoplay = true; 
+                        mediaElement.controls = false;
+                        mediaElement.className = 'w-full h-full object-cover';
+                        
+                        // Add an event listener to trigger the fade-in once data is available
+                        mediaElement.addEventListener('loadeddata', () => {
+                            item.card.classList.add('loaded');
+                        });
+                        
+                        // Start loading the video
+                        mediaElement.load();
+                        
+                        // Append the new media element
+                        item.card.appendChild(mediaElement);
+                        item.loaded = true;
+                        item.mediaElement = mediaElement; // Store reference
+                        
+                        return mediaElement;
                     }
-                    setTimeout(() => { isAnimating = false; render(false); }, 20);
-                }, TRANS_DUR + 20);
-            }
+                    return null;
+                }
 
-            const nextBtn = document.getElementById('nextCF');
-            const prevBtn = document.getElementById('prevCF');
-            if (nextBtn) nextBtn.addEventListener('click', () => goTo(current + 1));
-            if (prevBtn) prevBtn.addEventListener('click', () => goTo(current - 1));
+                function controlPlayback(item, play) {
+                    if (!item.loaded || !item.mediaElement) return;
 
-            let down = false, startX = 0, moved = false;
-            const coverflowWrap = document.getElementById('coverflow-wrap');
+                    if (item.data.type === 'webm') {
+                        // Native video control
+                        if (play) {
+                            item.mediaElement.muted = true;
+                            item.mediaElement.play().catch(e => console.log("Video Play Error:", e));
+                        } else {
+                            item.mediaElement.pause();
+                            item.mediaElement.currentTime = 0; // Reset video on pause
+                        }
+                    } 
+                }
 
-            coverflowWrap.addEventListener('pointerdown', (e) => {
-                if (e.target.closest('.cf-arrow')) return;
-                if (isMobile) return; 
+                function update(instant = false) {
+                    const width = document.getElementById('coverflow-wrap').offsetWidth;
+                    const spacing = Math.min(220, width * 0.25);
+                    
+                    items.forEach((item, i) => {
+                        let dist = i - currentIndex;
+                        const len = items.length;
+                        if (dist > len / 2) dist -= len;
+                        if (dist < -len / 2) dist += len;
+                        const absDist = Math.abs(dist);
+                        
+                        // Visibility Check (Only render items within 2 steps)
+                        if (absDist > 2) {
+                            item.el.style.display = 'none';
+                            controlPlayback(item, false); // Pause if hidden
+                        } else {
+                            item.el.style.display = 'block';
+                            
+                            const x = dist * spacing * (dist === 0 ? 0 : 1.2);
+                            const z = -absDist * 150;
+                            const rotateY = -dist * 25;
+                            const scale = 1 - (absDist * 0.15);
+                            const opacity = 1 - (absDist * 0.3);
+                            
+                            item.el.style.transform = `translateX(-50%) translate3d(${x}px, 0, ${z}px) rotateY(${rotateY}deg) scale(${scale}) translateY(-50%)`;
+                            item.el.style.zIndex = 100 - absDist;
+                            item.el.style.opacity = opacity;
+                            
+                            // --- DEFERRED LOADING TRIGGER ---
+                            loadMediaPlayer(item);
+                            
+                            // --- Playback Control ---
+                            const shouldPlay = (dist === 0);
+                            controlPlayback(item, shouldPlay);
 
-                down = true;
-                startX = e.clientX;
-                moved = false;
-                e.currentTarget.setPointerCapture && e.currentTarget.setPointerCapture(e.pointerId);
-            });
-            coverflowWrap.addEventListener('pointermove', (e) => {
-                if (!down) return;
-                const diff = e.clientX - startX;
-                if (Math.abs(diff) > 20) moved = true;
-            });
-            coverflowWrap.addEventListener('pointerup', (e) => {
-                if (!down) return;
-                down = false;
-                const end = e.clientX;
-                const diff = end - startX;
-                if (diff > 60) goTo(current - 1);
-                else if (diff < -60) goTo(current + 1);
-                e.currentTarget.releasePointerCapture && e.currentTarget.releasePointerCapture(e.pointerId);
-            });
-            
-            if (isMobile) {
-                coverflowWrap.addEventListener('touchstart', (e) => { startX = e.touches[0].clientX; });
-                coverflowWrap.addEventListener('touchend', (e) => {
-                    const diff = e.changedTouches[0].clientX - startX;
-                    if (diff > 60) goTo(current - 1);
-                    else if (diff < -60) goTo(current + 1);
+                            if (dist === 0) item.el.classList.add('active-item');
+                            else item.el.classList.remove('active-item');
+                        }
+                        
+                        item.el.style.transition = instant ? 'none' : 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s, z-index 0s';
+                    });
+                }
+
+                function move(dir) {
+                    currentIndex = (currentIndex + dir + items.length) % items.length;
+                    update();
+                }
+
+                document.getElementById('prevCF').onclick = () => move(-1);
+                document.getElementById('nextCF').onclick = () => move(1);
+                window.addEventListener('keydown', e => {
+                    if(e.key === 'ArrowLeft') move(-1);
+                    if(e.key === 'ArrowRight') move(1);
                 });
+
+                const wrap = document.getElementById('coverflow-wrap');
+                const handleStart = (x) => { isDragging = true; startX = x; };
+                const handleEnd = (x) => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    const diff = x - startX;
+                    if (Math.abs(diff) > 50) move(diff > 0 ? -1 : 1);
+                };
+
+                wrap.addEventListener('mousedown', e => handleStart(e.clientX));
+                wrap.addEventListener('mouseup', e => handleEnd(e.clientX));
+                wrap.addEventListener('touchstart', e => handleStart(e.touches[0].clientX));
+                wrap.addEventListener('touchend', e => handleEnd(e.changedTouches[0].clientX));
+
+                setTimeout(() => update(true), 1000);
             }
-
-            window.addEventListener('keydown', (e) => {
-                if (e.key === 'ArrowLeft') goTo(current - 1);
-                if (e.key === 'ArrowRight') goTo(current + 1);
-            });
-
-            window.addEventListener('resize', () => render(true));
-
-            render(true);
-            setTimeout(() => render(false), 50);
-        })();
+        });
     </script>
 </body>
 </html>
