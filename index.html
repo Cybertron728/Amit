@@ -133,9 +133,7 @@
             z-index: -2;
             will-change: transform;
         }
-        /* --- FIX: Adjust background-position for mobile to ensure centering or better crop --- */
         @media (max-width: 640px) {
-            /* Changed from 65% center to center center for a more centered look */
             .hero-bg { background-position: center center; } 
         }
 
@@ -236,13 +234,11 @@
             overflow: hidden;
             box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
         }
-        /* Standardize video/iframe filling */
         .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
         
-        /* Showreel specific hidden state */
         #showreel-wrapper {
-            opacity: 0; /* Hidden initially */
-            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth fade in */
+            opacity: 0;
+            transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* ---------------- CINEMA MODE ---------------- */
@@ -256,27 +252,43 @@
         body.cinema-active #cinema-overlay { opacity: 1; pointer-events: auto; }
         
         body.cinema-active #portfolio .section-content { z-index: 9995; position: relative; }
-        body.cinema-active #portfolio .section-content > *:not(#showreel-container) {
+        
+        /* FIX: Prevent dimming of the Toggle Button itself */
+        body.cinema-active #portfolio .section-content > *:not(#showreel-container):not(.showreel-header) {
             opacity: 0.15; filter: blur(4px) grayscale(80%);
             transition: opacity 0.5s ease, filter 0.5s ease; pointer-events: none;
         }
+        
         body.cinema-active #showreel-wrapper { z-index: 9999; transform: scale(1.02); box-shadow: 0 0 50px rgba(0,0,0,0.8); }
 
         .tubelight-container {
             display: flex; flex-direction: column; align-items: center;
             cursor: pointer; margin-top: 1rem; opacity: 0.8; transition: opacity 0.3s;
+            position: relative; /* Ensure z-index works */
         }
+        /* FIX: Explicit style for active cinema mode to keep button clickable and bright */
+        body.cinema-active .tubelight-container {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+            filter: none !important;
+            z-index: 10002;
+        }
+
         .tubelight-container:hover { opacity: 1; }
         .tubelight {
             width: 60px; height: 6px; background: #e0e7ff; border-radius: 9999px;
             box-shadow: 0 0 10px #fff, 0 0 20px #6366f1, 0 0 40px #6366f1; transition: all 0.3s ease;
         }
-        body.cinema-active .tubelight { background: #312e81; box-shadow: 0 0 2px #4f46e5; }
+        body.cinema-active .tubelight { background: #6366f1; box-shadow: 0 0 5px #818cf8, 0 0 15px #6366f1; }
+        
         .tubelight-label {
             margin-top: 8px; font-size: 0.75rem; color: #818cf8; font-weight: 600; text-transform: uppercase;
             opacity: 0; transform: translateY(-5px); transition: all 0.3s ease;
         }
         .tubelight-container:hover .tubelight-label { opacity: 1; transform: translateY(0); }
+        
+        /* Keep label visible in cinema mode */
+        body.cinema-active .tubelight-label { opacity: 1 !important; transform: translateY(0) !important; color: #fff; }
 
         /* ---------------- NEW EFFICIENT CAROUSEL ---------------- */
         #coverflow-wrap {
@@ -309,83 +321,51 @@
             position: relative;
             border: 1px solid rgba(255,255,255,0.1);
             background: #1f2937; 
-            display: flex; /* For placeholder content */
+            display: flex; 
             align-items: center;
             justify-content: center;
             color: #ccc;
         }
         
-        /* Placeholder for unloaded videos */
-        .cf-card:empty {
-             background-color: #24303a; 
-        }
+        .cf-card:empty { background-color: #24303a; }
 
         .cf-card video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            opacity: 0; /* Start invisible for fade in */
-            transition: opacity 0.5s ease;
+            width: 100%; height: 100%; object-fit: cover; display: block;
+            opacity: 0; transition: opacity 0.5s ease;
         }
         
         .cf-card iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            display: block;
-            opacity: 0; /* Start invisible for fade in */
-            transition: opacity 0.5s ease;
+            width: 100%; height: 100%; border: none; display: block;
+            opacity: 0; transition: opacity 0.5s ease;
         }
         
-        .cf-card.loaded video,
-        .cf-card.loaded iframe {
-            opacity: 1;
-        }
+        .cf-card.loaded video, .cf-card.loaded iframe { opacity: 1; }
         
         .cf-card .cf-placeholder {
-            position: absolute;
-            inset: 0;
+            position: absolute; inset: 0;
             background: linear-gradient(180deg,#24303a,#111827);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            color: #818cf8;
-            opacity: 1;
-            transition: opacity 0.3s ease;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem; color: #818cf8; opacity: 1; transition: opacity 0.3s ease;
         }
         
-        .cf-card.loaded .cf-placeholder {
-            opacity: 0;
-            pointer-events: none;
-        }
+        .cf-card.loaded .cf-placeholder { opacity: 0; pointer-events: none; }
 
-        /* Transparent Overlay to allow dragging/swiping over iframes/videos */
         .cf-overlay {
-            position: absolute;
-            inset: 0;
-            z-index: 10; /* Above media */
-            cursor: grab;
+            position: absolute; inset: 0; z-index: 10; cursor: grab;
         }
         .cf-overlay:active { cursor: grabbing; }
 
-        /* Active State Glow */
         .cf-item.active-item .cf-card {
             box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
             border-color: #6366f1;
         }
 
-        /* Navigation Arrows */
         .cf-arrow {
-            background: rgba(17, 24, 39, 0.8);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(17, 24, 39, 0.8); color: white; border: 1px solid rgba(255, 255, 255, 0.1);
             width: 48px; height: 48px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
             backdrop-filter: blur(4px); transition: all 0.2s; 
-            z-index: 200; /* Fixed: Higher than items */
-            cursor: pointer !important;
+            z-index: 200; cursor: pointer !important;
         }
         .cf-arrow:hover { background: #4f46e5; border-color: #6366f1; transform: scale(1.1); }
         .cf-arrow:active { transform: scale(0.95); }
@@ -424,7 +404,6 @@
                 Amit<span class="text-indigo-500">.</span>
             </h1>
             
-            <!-- Desktop Nav -->
             <nav class="hidden sm:flex space-x-1">
                 <a href="#hero" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
                 <a href="#portfolio" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Portfolio</a>
@@ -432,13 +411,11 @@
                 <a href="#contact" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
             </nav>
 
-            <!-- Mobile Menu Button -->
             <button id="mobile-menu-btn" class="sm:hidden text-gray-300 hover:text-white focus:outline-none p-2" aria-label="Menu">
                 <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
             </button>
         </div>
 
-        <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="hidden sm:hidden absolute top-16 left-0 w-full bg-gray-900 border-b border-gray-800 shadow-2xl transition-all duration-300">
             <div class="px-4 py-4 flex flex-col space-y-2">
                 <a href="#hero" class="mobile-link block px-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">Home</a>
@@ -462,20 +439,19 @@
                     <a href="#contact" class="px-8 py-3.5 rounded-full bg-transparent text-white font-bold border border-gray-600 hover:bg-gray-800 hover:border-gray-500 transition-all duration-200">Get in Touch</a>
                 </div>
             </div>
-            <!-- FIX: Changed from absolute left-1/2 transform to absolute width-full flex center -->
-            <!-- This ensures robust centering on mobile regardless of viewport scaling quirks -->
             <div class="absolute bottom-8 w-full flex justify-center animate-bounce opacity-50">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
             </div>
         </section>
 
         <!-- Portfolio -->
-        <section id="portfolio" class="relative py-20 sm:py-32 bg-gray-900 overflow-hidden">
+        <!-- FIX: Reduced top padding from py-20 to pt-12 (3rem) for mobile to reduce empty space -->
+        <section id="portfolio" class="relative pt-12 pb-24 sm:py-32 bg-gray-900 overflow-hidden">
             <div class="bg-pattern showreel-bg-pattern"></div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 section-content hide-initial relative z-10">
                 
-                <!-- Showreel -->
-                <div class="text-center mb-12">
+                <!-- Showreel Header Class Added for Selector Targeting -->
+                <div class="text-center mb-12 showreel-header">
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-2 text-glow">Showreel</h2>
                     <div class="tubelight-container" id="cinema-toggle" role="button" aria-pressed="false" tabindex="0" title="Toggle Cinema Mode">
                         <div class="tubelight"></div>
@@ -483,18 +459,14 @@
                     </div>
                 </div>
 
-                <!-- FIX: Increased bottom margin from mb-16 to mb-24 (mobile) and sm:mb-32 (desktop) -->
                 <div id="showreel-container" class="max-w-4xl mx-auto mb-24 sm:mb-32">
-                    <!-- showreel-wrapper set to opacity 0 in CSS initially -->
                     <div id="showreel-wrapper" class="rounded-xl p-1 bg-gradient-to-br from-gray-700 to-gray-900 shadow-2xl transition-transform duration-500">
                         <div class="video-wrapper relative group">
-                            <!-- Main Showreel Video -->
                             <video id="main-showreel" class="w-full h-full object-cover opacity-0 transition-opacity duration-500" muted playsinline loop controls>
                                 <source id="main-showreel-source" src="https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/Video%20ShowReel.mp4" type="video/mp4">
                                 Your browser does not support the video tag.
                             </video>
                             
-                            <!-- Mute Toggle Overlay -->
                             <div class="absolute bottom-4 right-4 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <button id="mute-toggle" class="bg-black/60 hover:bg-indigo-600 text-white p-2 rounded-full backdrop-blur-sm transition-colors">
                                     <svg id="icon-muted" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" /></svg>
@@ -506,7 +478,6 @@
                 </div>
 
                 <!-- CAROUSEL -->
-                <!-- FIX: Increased top margin from mt-24 to mt-32 (mobile) and sm:mt-48 (desktop) -->
                 <div id="more-projects" class="mt-32 sm:mt-48 text-center">
                     <h3 class="text-3xl font-bold text-white mb-2">Edits</h3>
                     <p class="text-gray-400 mb-10 text-sm uppercase tracking-widest visually-hidden">Swipe to Explore</p>
@@ -517,7 +488,6 @@
                                 <!-- Items injected by JS -->
                             </div>
                             
-                            <!-- MOVED BUTTONS OUTSIDE & BELOW -->
                             <div class="absolute -bottom-16 left-1/2 -translate-x-1/2 flex gap-8 z-200 pointer-events-none">
                                 <button id="prevCF" class="cf-arrow pointer-events-auto shadow-lg" aria-label="Previous">
                                     <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
@@ -732,10 +702,28 @@
                 toggle.addEventListener('click', (e) => {
                     e.stopPropagation();
                     body.classList.toggle('cinema-active');
+                    
+                    // FIX: Toggle label text for clarity
+                    const label = toggle.querySelector('.tubelight-label');
+                    if (body.classList.contains('cinema-active')) {
+                        label.textContent = "Lights On";
+                    } else {
+                        label.textContent = "Dim Lights";
+                    }
                 });
 
-                document.getElementById('cinema-overlay').addEventListener('click', () => body.classList.remove('cinema-active'));
-                window.addEventListener('keydown', (e) => { if(e.key === 'Escape') body.classList.remove('cinema-active'); });
+                document.getElementById('cinema-overlay').addEventListener('click', () => {
+                    body.classList.remove('cinema-active');
+                    // Reset label
+                    toggle.querySelector('.tubelight-label').textContent = "Dim Lights";
+                });
+                
+                window.addEventListener('keydown', (e) => { 
+                    if(e.key === 'Escape') {
+                        body.classList.remove('cinema-active');
+                        toggle.querySelector('.tubelight-label').textContent = "Dim Lights";
+                    }
+                });
             }
 
             // === CUSTOM CURSOR ===
