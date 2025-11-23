@@ -462,7 +462,9 @@
                     <a href="#contact" class="px-8 py-3.5 rounded-full bg-transparent text-white font-bold border border-gray-600 hover:bg-gray-800 hover:border-gray-500 transition-all duration-200">Get in Touch</a>
                 </div>
             </div>
-            <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce opacity-50">
+            <!-- FIX: Changed from absolute left-1/2 transform to absolute width-full flex center -->
+            <!-- This ensures robust centering on mobile regardless of viewport scaling quirks -->
+            <div class="absolute bottom-8 w-full flex justify-center animate-bounce opacity-50">
                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
             </div>
         </section>
@@ -481,7 +483,8 @@
                     </div>
                 </div>
 
-                <div id="showreel-container" class="max-w-4xl mx-auto mb-16">
+                <!-- FIX: Increased bottom margin from mb-16 to mb-24 (mobile) and sm:mb-32 (desktop) -->
+                <div id="showreel-container" class="max-w-4xl mx-auto mb-24 sm:mb-32">
                     <!-- showreel-wrapper set to opacity 0 in CSS initially -->
                     <div id="showreel-wrapper" class="rounded-xl p-1 bg-gradient-to-br from-gray-700 to-gray-900 shadow-2xl transition-transform duration-500">
                         <div class="video-wrapper relative group">
@@ -503,7 +506,8 @@
                 </div>
 
                 <!-- CAROUSEL -->
-                <div id="more-projects" class="mt-24 text-center">
+                <!-- FIX: Increased top margin from mt-24 to mt-32 (mobile) and sm:mt-48 (desktop) -->
+                <div id="more-projects" class="mt-32 sm:mt-48 text-center">
                     <h3 class="text-3xl font-bold text-white mb-2">Edits</h3>
                     <p class="text-gray-400 mb-10 text-sm uppercase tracking-widest visually-hidden">Swipe to Explore</p>
 
