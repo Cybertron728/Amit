@@ -52,6 +52,13 @@
                     },
                     animation: {
                         'float': 'float-center 4s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                    keyframes: {
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: 1, boxShadow: '0 0 10px #6366f1' },
+                            '50%': { opacity: .7, boxShadow: '0 0 25px #6366f1' },
+                        }
                     }
                 }
             }
@@ -195,7 +202,7 @@
         /* ---------------- CUSTOM CURSOR ---------------- */
         @media (pointer: fine) {
             body { cursor: none; }
-            a, button, input, textarea, .cf-card, .cf-arrow, iframe, .tubelight-container, video { cursor: none !important; }
+            a, button, input, textarea, .cf-card, .cf-arrow, iframe, .tubelight-container, video, .lightbox-overlay { cursor: none !important; }
             .cursor-dot, .cursor-ring { display: block; }
         }
         @media (pointer: coarse) {
@@ -253,7 +260,6 @@
         
         body.cinema-active #portfolio .section-content { z-index: 9995; position: relative; }
         
-        /* FIX: Prevent dimming of the Toggle Button itself */
         body.cinema-active #portfolio .section-content > *:not(#showreel-container):not(.showreel-header) {
             opacity: 0.15; filter: blur(4px) grayscale(80%);
             transition: opacity 0.5s ease, filter 0.5s ease; pointer-events: none;
@@ -264,9 +270,8 @@
         .tubelight-container {
             display: flex; flex-direction: column; align-items: center;
             cursor: pointer; margin-top: 1rem; opacity: 0.8; transition: opacity 0.3s;
-            position: relative; /* Ensure z-index works */
+            position: relative;
         }
-        /* FIX: Explicit style for active cinema mode to keep button clickable and bright */
         body.cinema-active .tubelight-container {
             opacity: 1 !important;
             pointer-events: auto !important;
@@ -279,7 +284,13 @@
             width: 60px; height: 6px; background: #e0e7ff; border-radius: 9999px;
             box-shadow: 0 0 10px #fff, 0 0 20px #6366f1, 0 0 40px #6366f1; transition: all 0.3s ease;
         }
-        body.cinema-active .tubelight { background: #6366f1; box-shadow: 0 0 5px #818cf8, 0 0 15px #6366f1; }
+        
+        /* Attention pulsing for cinema mode */
+        .cinema-attention .tubelight {
+            animation: pulse-glow 2s infinite;
+        }
+        
+        body.cinema-active .tubelight { background: #6366f1; box-shadow: 0 0 5px #818cf8, 0 0 15px #6366f1; animation: none; }
         
         .tubelight-label {
             margin-top: 8px; font-size: 0.75rem; color: #818cf8; font-weight: 600; text-transform: uppercase;
@@ -287,7 +298,11 @@
         }
         .tubelight-container:hover .tubelight-label { opacity: 1; transform: translateY(0); }
         
-        /* Keep label visible in cinema mode */
+        /* Force label visible state (used on load) */
+        .tubelight-label.force-visible {
+            opacity: 1 !important; transform: translateY(0) !important;
+        }
+
         body.cinema-active .tubelight-label { opacity: 1 !important; transform: translateY(0) !important; color: #fff; }
 
         /* ---------------- NEW EFFICIENT CAROUSEL ---------------- */
@@ -311,6 +326,8 @@
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             background: #1f2937;
+            /* Allow clicking the item to trigger JS */
+            cursor: pointer;
         }
 
         .cf-card {
@@ -351,9 +368,8 @@
         .cf-card.loaded .cf-placeholder { opacity: 0; pointer-events: none; }
 
         .cf-overlay {
-            position: absolute; inset: 0; z-index: 10; cursor: grab;
+            position: absolute; inset: 0; z-index: 10; cursor: pointer;
         }
-        .cf-overlay:active { cursor: grabbing; }
 
         .cf-item.active-item .cf-card {
             box-shadow: 0 0 30px rgba(99, 102, 241, 0.5);
@@ -445,7 +461,6 @@
         </section>
 
         <!-- Portfolio -->
-        <!-- FIX: Reduced top padding from pt-12 (3rem) to pt-4 (1rem) for mobile to move Showreel up -->
         <section id="portfolio" class="relative pt-4 pb-24 sm:py-32 bg-gray-900 overflow-hidden">
             <div class="bg-pattern showreel-bg-pattern"></div>
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 section-content hide-initial relative z-10">
@@ -453,7 +468,9 @@
                 <!-- Showreel Header Class Added for Selector Targeting -->
                 <div class="text-center mb-12 showreel-header">
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-2 text-glow">Showreel</h2>
-                    <div class="tubelight-container" id="cinema-toggle" role="button" aria-pressed="false" tabindex="0" title="Toggle Cinema Mode">
+                    
+                    <!-- Updated Toggle with Awareness Classes -->
+                    <div class="tubelight-container cinema-attention" id="cinema-toggle" role="button" aria-pressed="false" tabindex="0" title="Toggle Cinema Mode">
                         <div class="tubelight"></div>
                         <span class="tubelight-label">Dim Lights</span>
                     </div>
@@ -478,7 +495,6 @@
                 </div>
 
                 <!-- CAROUSEL -->
-                <!-- FIX: Increased top margin from mt-32 to mt-56 for mobile to push Edits text lower -->
                 <div id="more-projects" class="mt-56 sm:mt-48 text-center">
                     <h3 class="text-3xl font-bold text-white mb-2">Edits</h3>
                     <p class="text-gray-400 mb-10 text-sm uppercase tracking-widest visually-hidden">Swipe to Explore</p>
@@ -699,13 +715,19 @@
                 const toggle = document.getElementById('cinema-toggle');
                 const body = document.body;
                 
+                // Show label briefly on load
+                const label = toggle.querySelector('.tubelight-label');
+                label.classList.add('force-visible');
+                setTimeout(() => {
+                    label.classList.remove('force-visible');
+                }, 4000); // Hide after 4 seconds
+                
                 // Cinema toggle
                 toggle.addEventListener('click', (e) => {
                     e.stopPropagation();
                     body.classList.toggle('cinema-active');
+                    toggle.classList.remove('cinema-attention'); 
                     
-                    // FIX: Toggle label text for clarity
-                    const label = toggle.querySelector('.tubelight-label');
                     if (body.classList.contains('cinema-active')) {
                         label.textContent = "Lights On";
                     } else {
@@ -715,7 +737,6 @@
 
                 document.getElementById('cinema-overlay').addEventListener('click', () => {
                     body.classList.remove('cinema-active');
-                    // Reset label
                     toggle.querySelector('.tubelight-label').textContent = "Dim Lights";
                 });
                 
@@ -751,14 +772,13 @@
             // === EFFICIENT CAROUSEL (Deferred Loading for Native Video) ===
             function initCarousel() {
                 // All video IDs are now data objects (type: 'webm' assumed for CDN links)
-                // --- UPDATE: Changed the source URL for the first video as requested ---
                 const videoData = [
                     { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/food.webm' }, 
                     { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/Gym%20Viral%20Effect.webm' }, 
                     { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/Website%20Header2.webm' },
                     { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/%5BZm%5D%20-%20%5BCh%5D%20-%20Removal%20Process.webm' },
                     { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/resized.webm' },
-                    { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/3D%20Edit.webm' } // Added an extra link to ensure 6 videos total, reusing the previous test link
+                    { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/3D%20Edit.webm' } 
                 ];
 
                 const container = document.getElementById('coverflow');
@@ -784,7 +804,7 @@
                     // Reveal the card placeholder immediately
                     setTimeout(() => { el.style.opacity = 1; }, 300 + (i * 100));
                     
-                    return { el, data, index: i, loaded: false, card: el.querySelector('.cf-card') };
+                    return { el, data, index: i, loaded: false, card: el.querySelector('.cf-card'), isZoomed: false };
                 });
 
                 let currentIndex = 0;
@@ -830,11 +850,12 @@
                     if (item.data.type === 'webm') {
                         // Native video control
                         if (play) {
-                            item.mediaElement.muted = true;
+                            // Only mute if NOT zoomed
+                            item.mediaElement.muted = !item.isZoomed;
                             item.mediaElement.play().catch(e => console.log("Video Play Error:", e));
                         } else {
                             item.mediaElement.pause();
-                            item.mediaElement.currentTime = 0; // Reset video on pause
+                            item.mediaElement.currentTime = 0; 
                         }
                     } 
                 }
@@ -850,21 +871,33 @@
                         if (dist < -len / 2) dist += len;
                         const absDist = Math.abs(dist);
                         
+                        // Reset zoom if not the current item
+                        if (dist !== 0 && item.isZoomed) {
+                            item.isZoomed = false;
+                            if(item.mediaElement) item.mediaElement.muted = true;
+                        }
+
                         // Visibility Check (Only render items within 2 steps)
                         if (absDist > 2) {
                             item.el.style.display = 'none';
-                            controlPlayback(item, false); // Pause if hidden
+                            controlPlayback(item, false); 
                         } else {
                             item.el.style.display = 'block';
                             
+                            // CALCULATE TRANSFORMS
                             const x = dist * spacing * (dist === 0 ? 0 : 1.2);
                             const z = -absDist * 150;
                             const rotateY = -dist * 25;
-                            const scale = 1 - (absDist * 0.15);
-                            const opacity = 1 - (absDist * 0.3);
+                            let scale = 1 - (absDist * 0.15);
+                            let opacity = 1 - (absDist * 0.3);
+                            
+                            // Apply Zoom Effect if active
+                            if (dist === 0 && item.isZoomed) {
+                                scale = 1.3; // Zoom in by 30%
+                            }
                             
                             item.el.style.transform = `translateX(-50%) translate3d(${x}px, 0, ${z}px) rotateY(${rotateY}deg) scale(${scale}) translateY(-50%)`;
-                            item.el.style.zIndex = 100 - absDist;
+                            item.el.style.zIndex = (100 - absDist) + (item.isZoomed ? 100 : 0); // Boost z-index if zoomed
                             item.el.style.opacity = opacity;
                             
                             // --- DEFERRED LOADING TRIGGER ---
@@ -879,6 +912,25 @@
                         }
                         
                         item.el.style.transition = instant ? 'none' : 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s, z-index 0s';
+                        
+                        // Update Click Listener for Zoom vs Navigation
+                        const overlay = item.el.querySelector('.cf-overlay');
+                        overlay.onclick = (e) => {
+                            e.stopPropagation();
+                            if (dist === 0) {
+                                // Toggle Zoom
+                                item.isZoomed = !item.isZoomed;
+                                
+                                // Toggle Sound on Zoom
+                                if(item.mediaElement) {
+                                    item.mediaElement.muted = !item.isZoomed;
+                                }
+                                
+                                update(); // Re-render to apply new scale
+                            } else {
+                                move(dist);
+                            }
+                        };
                     });
                 }
 
