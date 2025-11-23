@@ -133,8 +133,10 @@
             z-index: -2;
             will-change: transform;
         }
+        /* --- FIX: Adjust background-position for mobile to ensure centering or better crop --- */
         @media (max-width: 640px) {
-            .hero-bg { background-position: 65% center; }
+            /* Changed from 65% center to center center for a more centered look */
+            .hero-bg { background-position: center center; } 
         }
 
         .hero-overlay {
@@ -756,8 +758,9 @@
             // === EFFICIENT CAROUSEL (Deferred Loading for Native Video) ===
             function initCarousel() {
                 // All video IDs are now data objects (type: 'webm' assumed for CDN links)
+                // --- UPDATE: Changed the source URL for the first video as requested ---
                 const videoData = [
-                    { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/Food%20Shortform.webm' },
+                    { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/food.webm' }, 
                     { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/Gym%20Viral%20Effect.webm' }, 
                     { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/Website%20Header2.webm' },
                     { type: 'webm', id: 'https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/%5BZm%5D%20-%20%5BCh%5D%20-%20Removal%20Process.webm' },
