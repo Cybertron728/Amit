@@ -8,22 +8,26 @@
     <meta name="author" content="Amit">
     <meta name="theme-color" content="#111827">
     
+    <!-- PRELOAD ASSETS to avoid flicker -->
+    <link rel="preload" as="image" href="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/hero.webp">
+    <link rel="preload" as="video" href="https://cdn.jsdelivr.net/gh/Cybertron728/Amit/videos/Video%20ShowReel.mp4">
+
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://yourportfolio.com/">
+    <meta property="og:url" content="https://amit-portfolio.vercel.app/">
     <meta property="og:title" content="Amit - Video Editor Portfolio">
     <meta property="og:description" content="Bringing your Story to Life with high-impact edits and motion graphics.">
     <meta property="og:image" content="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/hero.webp">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://yourportfolio.com/">
+    <meta property="twitter:url" content="https://amit-portfolio.vercel.app/">
     <meta property="twitter:title" content="Amit - Video Editor Portfolio">
     <meta property="twitter:description" content="Bringing your Story to Life with high-impact edits and motion graphics.">
     <meta property="twitter:image" content="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/hero.webp">
 
     <!-- Canonical Link -->
-    <link rel="canonical" href="https://yourportfolio.com/">
+    <link rel="canonical" href="https://amit-portfolio.vercel.app/">
 
     <title>Video Editor Portfolio - Amit</title>
     
@@ -53,11 +57,16 @@
                     animation: {
                         'float': 'float-center 4s ease-in-out infinite',
                         'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'swipe-hint': 'swipe-hint 2s ease-in-out infinite',
                     },
                     keyframes: {
                         'pulse-glow': {
                             '0%, 100%': { opacity: 1, boxShadow: '0 0 10px #6366f1' },
                             '50%': { opacity: .7, boxShadow: '0 0 25px #6366f1' },
+                        },
+                        'swipe-hint': {
+                            '0%, 100%': { transform: 'translateX(0)', opacity: 0.5 },
+                            '50%': { transform: 'translateX(-20px)', opacity: 1 },
                         }
                     }
                 }
@@ -298,7 +307,7 @@
         }
         .tubelight-container:hover .tubelight-label { opacity: 1; transform: translateY(0); }
         
-        /* Force label visible state (used on load) */
+        /* Force label visible state */
         .tubelight-label.force-visible {
             opacity: 1 !important; transform: translateY(0) !important;
         }
@@ -307,7 +316,7 @@
 
         /* ---------------- NEW EFFICIENT CAROUSEL ---------------- */
         #coverflow-wrap {
-            height: 520px;
+            height: 460px;
             perspective: 1000px; 
             position: relative;
             overflow: visible; 
@@ -358,14 +367,27 @@
         
         .cf-card.loaded video, .cf-card.loaded iframe { opacity: 1; }
         
+        /* --- Updated Placeholder to match Intro "Split Screen" --- */
         .cf-card .cf-placeholder {
             position: absolute; inset: 0;
-            background: linear-gradient(180deg,#24303a,#111827);
+            background: linear-gradient(135deg, #1f2937, #111827);
             display: flex; align-items: center; justify-content: center;
-            font-size: 0.75rem; color: #818cf8; opacity: 1; transition: opacity 0.3s ease;
+            opacity: 1; transition: opacity 0.3s ease;
+            z-index: 5;
         }
         
         .cf-card.loaded .cf-placeholder { opacity: 0; pointer-events: none; }
+
+        /* Inner Split Lines for Placeholder */
+        .cf-placeholder::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%;
+            border-bottom: 1px solid rgba(255,255,255,0.05); pointer-events: none;
+        }
+        
+        .cf-placeholder-icon {
+            font-size: 32px; font-weight: 900; color: #6366f1; 
+            text-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+        }
 
         .cf-overlay {
             position: absolute; inset: 0; z-index: 10; cursor: pointer;
@@ -387,7 +409,7 @@
         .cf-arrow:active { transform: scale(0.95); }
 
         @media (max-width: 640px) {
-            #coverflow-wrap { height: 420px; }
+            #coverflow-wrap { height: 380px; }
             .cf-item { width: 180px; }
         }
 
@@ -466,7 +488,7 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 section-content hide-initial relative z-10">
                 
                 <!-- Showreel Header Class Added for Selector Targeting -->
-                <div class="text-center mb-12 showreel-header">
+                <div class="text-center mb-6 showreel-header">
                     <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-2 text-glow">Showreel</h2>
                     
                     <!-- Updated Toggle with Awareness Classes -->
@@ -476,7 +498,7 @@
                     </div>
                 </div>
 
-                <div id="showreel-container" class="max-w-4xl mx-auto mb-24 sm:mb-32">
+                <div id="showreel-container" class="max-w-3xl mx-auto mb-20 sm:mb-24">
                     <div id="showreel-wrapper" class="rounded-xl p-1 bg-gradient-to-br from-gray-700 to-gray-900 shadow-2xl transition-transform duration-500">
                         <div class="video-wrapper relative group">
                             <video id="main-showreel" class="w-full h-full object-cover opacity-0 transition-opacity duration-500" muted playsinline loop controls>
@@ -495,12 +517,22 @@
                 </div>
 
                 <!-- CAROUSEL -->
-                <div id="more-projects" class="mt-56 sm:mt-48 text-center">
+                <div id="more-projects" class="mt-32 sm:mt-40 text-center">
                     <h3 class="text-3xl font-bold text-white mb-2">Edits</h3>
-                    <p class="text-gray-400 mb-10 text-sm uppercase tracking-widest visually-hidden">Swipe to Explore</p>
+                    <!-- Hints for User -->
+                    <div class="flex justify-center items-center gap-2 mb-10 text-sm text-gray-400">
+                        <span class="hidden md:inline-flex items-center gap-1 bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700">
+                            <svg class="w-4 h-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            Click to Zoom
+                        </span>
+                        <span class="md:hidden inline-flex items-center gap-1 bg-gray-800/50 px-3 py-1 rounded-full border border-gray-700">
+                            <svg class="w-4 h-4 text-indigo-400 animate-swipe-hint" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11"/></svg>
+                            Swipe
+                        </span>
+                    </div>
 
                     <div class="relative w-full">
-                        <div id="coverflow-wrap" class="relative w-full max-w-6xl mx-auto hide-initial opacity-0 transition-opacity duration-1000">
+                        <div id="coverflow-wrap" class="relative w-full mx-auto hide-initial opacity-0 transition-opacity duration-1000">
                             <div id="coverflow" class="absolute inset-0 cursor-grab active:cursor-grabbing">
                                 <!-- Items injected by JS -->
                             </div>
@@ -715,12 +747,25 @@
                 const toggle = document.getElementById('cinema-toggle');
                 const body = document.body;
                 
-                // Show label briefly on load
-                const label = toggle.querySelector('.tubelight-label');
-                label.classList.add('force-visible');
-                setTimeout(() => {
-                    label.classList.remove('force-visible');
-                }, 4000); // Hide after 4 seconds
+                // --- NEW: Show hint only when element is in view ---
+                const hintObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if(entry.isIntersecting) {
+                            const label = toggle.querySelector('.tubelight-label');
+                            label.classList.add('force-visible');
+                            // Remove hint after 4 seconds
+                            setTimeout(() => {
+                                label.classList.remove('force-visible');
+                            }, 4000);
+                            // Stop observing after triggering once
+                            hintObserver.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+                
+                // Start observing the toggle container
+                hintObserver.observe(toggle);
+
                 
                 // Cinema toggle
                 toggle.addEventListener('click', (e) => {
@@ -728,6 +773,7 @@
                     body.classList.toggle('cinema-active');
                     toggle.classList.remove('cinema-attention'); 
                     
+                    const label = toggle.querySelector('.tubelight-label');
                     if (body.classList.contains('cinema-active')) {
                         label.textContent = "Lights On";
                     } else {
@@ -792,9 +838,12 @@
                     el.className = 'cf-item';
                     el.style.opacity = 0; 
                     
+                    // --- UPDATED PLACEHOLDER WITH SPLIT SCREEN LOGO STYLE ---
                     el.innerHTML = `
                         <div class="cf-card">
-                            <div class="cf-placeholder">LOADING...</div>
+                            <div class="cf-placeholder">
+                                <div class="cf-placeholder-icon">A</div>
+                            </div>
                             <div class="cf-overlay"></div>
                             <!-- video will be injected later -->
                         </div>`;
@@ -804,7 +853,8 @@
                     // Reveal the card placeholder immediately
                     setTimeout(() => { el.style.opacity = 1; }, 300 + (i * 100));
                     
-                    return { el, data, index: i, loaded: false, card: el.querySelector('.cf-card'), isZoomed: false };
+                    // ** Added lastDist for tracking wrap-around **
+                    return { el, data, index: i, loaded: false, card: el.querySelector('.cf-card'), isZoomed: false, lastDist: 0 };
                 });
 
                 let currentIndex = 0;
@@ -862,7 +912,7 @@
 
                 function update(instant = false) {
                     const width = document.getElementById('coverflow-wrap').offsetWidth;
-                    const spacing = Math.min(220, width * 0.25);
+                    const spacing = Math.min(260, width * 0.25);
                     
                     items.forEach((item, i) => {
                         let dist = i - currentIndex;
@@ -878,17 +928,31 @@
                         }
 
                         // Visibility Check (Only render items within 2 steps)
-                        if (absDist > 2) {
+                        if (absDist > 3) {
                             item.el.style.display = 'none';
                             controlPlayback(item, false); 
                         } else {
                             item.el.style.display = 'block';
                             
                             // CALCULATE TRANSFORMS
-                            const x = dist * spacing * (dist === 0 ? 0 : 1.2);
-                            const z = -absDist * 150;
-                            const rotateY = -dist * 25;
-                            let scale = 1 - (absDist * 0.15);
+                            // --- FIXED: Even spacing for outer items ---
+                            const dir = dist < 0 ? -1 : 1;
+                            let x = 0;
+                            
+                            if(absDist > 0) {
+                                // Step 1: Center -> Neighbor (Keep the good spacing)
+                                x = spacing * 1.1; 
+                                
+                                // Step 2+: Neighbor -> Outer (Increased multiplier to match standard spacing)
+                                if(absDist > 1) {
+                                    x += (absDist - 1) * (spacing * 1.0); 
+                                }
+                                x *= dir;
+                            }
+
+                            const z = -absDist * 100; // Less depth push (was 150)
+                            const rotateY = -dist * 15; // Less rotation (was 25)
+                            let scale = 1 - (absDist * 0.1); // Less shrinking (was 0.15)
                             let opacity = 1 - (absDist * 0.3);
                             
                             // Apply Zoom Effect if active
@@ -911,7 +975,16 @@
                             else item.el.classList.remove('active-item');
                         }
                         
-                        item.el.style.transition = instant ? 'none' : 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s, z-index 0s';
+                        // --- FIX: Detect Wrap-Around to prevent "fly through" ---
+                        // If distance jumps significantly (e.g. from 3 to -2), disable transition
+                        let useTransition = !instant;
+                        const distDiff = Math.abs(dist - item.lastDist);
+                        if (useTransition && distDiff > 2) {
+                            useTransition = false; // Snap instantly
+                        }
+                        
+                        item.el.style.transition = useTransition ? 'transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.5s, z-index 0s' : 'none';
+                        item.lastDist = dist; // Store current distance for next frame comparison
                         
                         // Update Click Listener for Zoom vs Navigation
                         const overlay = item.el.querySelector('.cf-overlay');
