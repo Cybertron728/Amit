@@ -1045,6 +1045,13 @@
 
                 let lightboxMuted = false; // default unmuted inside cinema theater mode
 
+                // Hidden prefetch video element to buffer the next video in background
+                const prefetchVideo = document.createElement('video');
+                prefetchVideo.muted = true;
+                prefetchVideo.preload = 'auto';
+                prefetchVideo.style.display = 'none';
+                document.body.appendChild(prefetchVideo);
+
                 function openLightbox(originalIndex) {
                     currentLightboxIndex = originalIndex;
                     updateLightboxContent();
@@ -1061,6 +1068,10 @@
                     lbVideo.pause();
                     lbVideo.removeAttribute('src');
                     lbVideo.load();
+                    
+                    // Clear prefetch to save background bandwidth
+                    prefetchVideo.removeAttribute('src');
+                    prefetchVideo.load();
                     
                     modal.classList.remove('active');
                     setTimeout(() => {
@@ -1100,6 +1111,23 @@
 
                     // Manage navigation arrows visibility based on current filtered items
                     updateLightboxNav();
+
+                    // Prefetch the next video in the filtered set to ensure buttery-smooth next playback
+                    prefetchNextVideo();
+                }
+
+                function prefetchNextVideo() {
+                    const currentIndexInFiltered = filteredItems.findIndex(item => item.file === videoData[currentLightboxIndex].file);
+                    const nextIndexInFiltered = currentIndexInFiltered + 1;
+
+                    if (nextIndexInFiltered < filteredItems.length) {
+                        const nextVideoData = filteredItems[nextIndexInFiltered];
+                        prefetchVideo.src = nextVideoData.file;
+                        prefetchVideo.load();
+                    } else {
+                        prefetchVideo.removeAttribute('src');
+                        prefetchVideo.load();
+                    }
                 }
 
                 function updateMuteButtonUI() {
