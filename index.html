@@ -124,17 +124,68 @@
         .intro-top { top: 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .intro-bottom { bottom: 0; border-top: 1px solid rgba(255,255,255,0.1); }
 
-        .intro-icon {
+        .intro-content {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) scale(1);
-            font-size: 60px;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10001;
+            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .intro-icon {
+            font-size: 80px;
             font-weight: 900;
             color: #6366f1; 
-            opacity: 1;
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-            z-index: 10001;
+            text-shadow: 0 0 35px rgba(99, 102, 241, 0.5);
+            margin-bottom: 24px;
+            animation: pulse-logo 2s infinite ease-in-out;
+        }
+
+        .intro-loader-bar-container {
+            width: 180px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 99px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-bottom: 14px;
+        }
+
+        .intro-loader-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #6366f1, #a855f7);
+            border-radius: 99px;
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.8);
+            animation: fill-loader 1.8s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+        }
+
+        .intro-loader-text {
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            color: #9ca3af;
+            text-transform: uppercase;
+            animation: pulse-text 1.5s infinite ease-in-out;
+        }
+
+        @keyframes pulse-logo {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
+        }
+
+        @keyframes fill-loader {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes pulse-text {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
         }
 
         /* ---------------- HERO BG ---------------- */
@@ -449,7 +500,13 @@
     <div id="intro-overlay" role="presentation">
         <div class="intro-panel intro-top"></div>
         <div class="intro-panel intro-bottom"></div>
-        <div class="intro-icon">A</div>
+        <div class="intro-content">
+            <div class="intro-icon">A</div>
+            <div class="intro-loader-bar-container">
+                <div class="intro-loader-bar"></div>
+            </div>
+            <div class="intro-loader-text">Loading Cinematic Experience...</div>
+        </div>
     </div>
 
     <div class="cursor-dot"></div>
@@ -639,12 +696,16 @@
             setTimeout(() => {
                 document.querySelector('.intro-top').style.transform = 'translateY(-100%)';
                 document.querySelector('.intro-bottom').style.transform = 'translateY(100%)';
-                document.querySelector('.intro-icon').style.opacity = '0';
+                const introContent = document.querySelector('.intro-content');
+                if (introContent) {
+                    introContent.style.opacity = '0';
+                    introContent.style.transform = 'translate(-50%, -50%) scale(0.95)';
+                }
                 setTimeout(() => {
                     document.getElementById('intro-overlay').style.display = 'none';
                     animateHero();
-                }, 500);
-            }, 200);
+                }, 800);
+            }, 1800);
 
             function animateHero() {
                 const title = document.getElementById('hero-title');
@@ -774,27 +835,23 @@
                     showreel.addEventListener('loadeddata', revealShowreel);
                 }
 
-                // 2. Viewport-aware Autoplay & Lazy Loading (Loads the video *only* when scrolled into view)
-                let isLoaded = false;
+                // Preload immediately upon page load to buffer during the intro loading screen
+                const src = showreel.getAttribute('data-src');
+                if (src) {
+                    showreel.src = src;
+                    showreel.load();
+                }
+
+                // 2. Viewport-aware Autoplay
                 const playObserver = new IntersectionObserver((entries) => {
                     entries.forEach(entry => {
                         if (entry.isIntersecting) {
-                            if (!isLoaded) {
-                                isLoaded = true;
-                                const src = showreel.getAttribute('data-src');
-                                if (src) {
-                                    showreel.src = src;
-                                    showreel.load();
-                                }
-                            }
                             showreel.play().catch(e => console.log("Showreel Autoplay Blocked:", e));
                         } else {
-                            if (isLoaded) {
-                                showreel.pause();
-                            }
+                            showreel.pause();
                         }
                     });
-                }, { threshold: 0.1 }); // Plays and loads when 10% of player is visible
+                }, { threshold: 0.1 }); // Plays when 10% of player is visible
 
                 playObserver.observe(showreel);
 
