@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Portfolio of Amit - Professional Motion Designer specializing in Real Estate, UGC, and Motion Graphics.">
+    <meta name="keywords" content="Motion Designer, Premiere Pro, After Effects, Real Estate Video, UGC, Motion Graphics, Portfolio">
+    <meta name="author" content="Amit">
+    <meta name="theme-color" content="#111827">
+    
+    <!-- PRELOAD ASSETS to avoid flicker -->
+    <link rel="preload" as="image" href="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/hero.webp">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://amit-portfolio.vercel.app/">
+    <meta property="og:title" content="Amit - Motion Designer Portfolio">
+    <meta property="og:description" content="Bringing your Story to Life with high-impact edits and motion graphics.">
+    <meta property="og:image" content="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/hero.webp">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://amit-portfolio.vercel.app/">
+    <meta property="twitter:title" content="Amit - Motion Designer Portfolio">
+    <meta property="twitter:description" content="Bringing your Story to Life with high-impact edits and motion graphics.">
+    <meta property="twitter:image" content="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/hero.webp">
+
+    <!-- Canonical Link -->
+    <link rel="canonical" href="https://amit-portfolio.vercel.app/">
+
+    <title>Motion Designer Portfolio - Amit</title>
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/apple-touch-icon.png">
+
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gray: {
+                            900: '#111827',
+                            800: '#1f2937',
+                            700: '#374151',
+                        },
+                        indigo: {
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                        }
+                    },
+                    animation: {
+                        'float': 'float-center 4s ease-in-out infinite',
+                        'pulse-glow': 'pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'swipe-hint': 'swipe-hint 2s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: 1, boxShadow: '0 0 10px #6366f1' },
+                            '50%': { opacity: .7, boxShadow: '0 0 25px #6366f1' },
+                        },
+                        'swipe-hint': {
+                            '0%, 100%': { transform: 'translateX(0)', opacity: 0.5 },
+                            '50%': { transform: 'translateX(-20px)', opacity: 1 },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap');
+    </style>
+
+    <!-- MAIN STYLESHEET -->
+    <style>
+        :root {
+            --cursor-size: 8px;
+            --cursor-ring-size: 32px;
+            --color-primary: #6366f1;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden; 
+            background-color: #111827;
+            color: #f3f4f6;
+        }
+
+        :focus-visible {
+            outline: 2px solid #818cf8;
+            outline-offset: 4px;
+        }
+
+        /* ---------------- INTRO OVERLAY ---------------- */
+        #intro-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .intro-panel {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(135deg, #1f2937, #111827); 
+            transform: translateY(0);
+            transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 10000;
+            pointer-events: auto;
+        }
+
+        .intro-top { top: 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .intro-bottom { bottom: 0; border-top: 1px solid rgba(255,255,255,0.1); }
+
+        .intro-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            font-size: 60px;
+            font-weight: 900;
+            color: #6366f1; 
+            opacity: 1;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            z-index: 10001;
+        }
+
+        /* ---------------- HERO BG ---------------- */
+        .hero-bg {
+            background-image: url('https://9bbqe2ddwjuwuyon.public.blob.vercel-storage.com/hero.webp'); 
+            background-size: cover;
+            background-position: center;
+            opacity: 0.4; 
+            position: absolute;
+            inset: 0;
+            z-index: -2;
+            will-change: transform;
+        }
+        @media (max-width: 640px) {
+            .hero-bg { background-position: center center; } 
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(to top, #111827 5%, rgba(17, 24, 39, 0.7) 50%, rgba(17, 24, 39, 0.4) 100%);
+        }
+        
+        #hero-sub, #hero-buttons {
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            will-change: opacity, transform;
+        }
+
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s step-start infinite;
+            color: #6366f1; 
+            margin-left: 2px;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* ---------------- PATTERNS ---------------- */
+        .bg-pattern {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            z-index: 0;
+            background-image: repeating-linear-gradient(90deg, transparent 0, transparent 60px, rgba(99, 102, 241, 0.07) 60px, rgba(99, 102, 241, 0.15) 100px, rgba(99, 102, 241, 0.07) 140px, transparent 140px, transparent 240px);
+            pointer-events: none;
+            transform: translateZ(0);
+        }
+
+        .showreel-bg-pattern { top: 0; height: 60%; -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent); mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent); }
+        .contact-bg-pattern { top: 0; height: 100%; -webkit-mask-image: linear-gradient(to bottom, transparent, black 40%, black 60%, transparent); mask-image: linear-gradient(to bottom, transparent, black 40%, black 60%, transparent); }
+
+        .contact-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 100%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* ---------------- ANIMATIONS ---------------- */
+        .hide-initial { opacity: 0; transform: translateY(30px); }
+        .animate-in { opacity: 1; transform: translateY(0); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animate-in, .cf-item, .cf-card { transition: none !important; animation: none !important; transform: none !important; }
+            .hide-initial { opacity: 1; transform: none; }
+        }
+
+        /* ---------------- CUSTOM CURSOR ---------------- */
+        @media (pointer: fine) {
+            body { cursor: none; }
+            a, button, input, textarea, .cf-card, .cf-arrow, iframe, .tubelight-container, video, .lightbox-overlay, .video-card, .filter-pill { cursor: none !important; }
+            .cursor-dot, .cursor-ring { display: block; }
+        }
+        @media (pointer: coarse) {
+            .cursor-dot, .cursor-ring { display: none !important; }
+            body { cursor: auto; }
+        }
+
+        .cursor-dot, .cursor-ring {
+            position: fixed;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-dot { width: 8px; height: 8px; background-color: #6366f1; border-radius: 50%; }
+        .cursor-ring {
+            width: 32px; height: 32px;
+            border: 1px solid rgba(99, 102, 241, 0.5);
+            border-radius: 50%;
+            transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+        }
+        body.cursor-pointer-active .cursor-dot { background-color: #e0f2f1; }
+        body.cursor-pointer-active .cursor-ring {
+            width: 50px; height: 50px;
+            border-color: rgba(99, 102, 241, 0.8);
+            background-color: rgba(99, 102, 241, 0.15);
+        }
+
+        /* ---------------- VIDEO WRAPPER ---------------- */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            background-color: #000;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+        }
+        .video-wrapper video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+        
+        /* ---------------- PORTFOLIO DYNAMIC GRID & LIGHTBOX ---------------- */
+        .filter-pill {
+            background: rgba(31, 41, 55, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #9ca3af;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(8px);
+        }
+        .filter-pill:hover {
+            color: #fff;
+            background: rgba(79, 70, 229, 0.2);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 0 15px rgba(99, 102, 241, 0.15);
+        }
+        .filter-pill.active {
+            color: #fff;
+            background: #6366f1;
+            border-color: #818cf8;
+            box-shadow: 0 0 25px rgba(99, 102, 241, 0.4);
+        }
+        
+        .video-card {
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(31, 41, 55, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform, box-shadow;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .video-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(99, 102, 241, 0.4);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 30px rgba(99, 102, 241, 0.2);
+        }
+        
+        .video-card-video {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        .video-card-video.loaded {
+            opacity: 1;
+        }
+        
+        .card-placeholder {
+            background: linear-gradient(135deg, #1f2937, #111827);
+            z-index: 20;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        
+        .video-card.video-loaded .card-placeholder {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.05);
+        }
+        
+        .card-placeholder::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 50%;
+            border-bottom: 1px solid rgba(255,255,255,0.05); pointer-events: none;
+        }
+        
+        .card-placeholder-icon {
+            font-size: 32px; font-weight: 900; color: #6366f1; 
+            text-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+        }
+        
+        /* Premium Cinema Lightbox */
+        #lightbox-modal {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        #lightbox-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+        .lightbox-close {
+            transition: all 0.2s;
+        }
+        .lightbox-close:hover {
+            transform: scale(1.1) rotate(90deg);
+            color: #f3f4f6;
+        }
+        .lightbox-arrow {
+            background: rgba(31, 41, 55, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.2s;
+        }
+        .lightbox-arrow:hover {
+            background: #4f46e5;
+            border-color: #6366f1;
+            transform: scale(1.1);
+        }
+        .lightbox-arrow:active {
+            transform: scale(0.95);
+        }
+
+        .text-glow { text-shadow: 0 0 20px rgba(99, 102, 241, 0.4); }
+        .nav-link.active { color: #818cf8; position: relative; }
+        .nav-link.active::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 2px;
+            background-color: #6366f1; box-shadow: 0 0 8px #6366f1;
+        }
+        .visually-hidden { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); border: 0; }
+        
+        .showreel-bg-pattern {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; pointer-events: none;
+            background-image: repeating-linear-gradient(90deg, transparent 0, transparent 60px, rgba(99, 102, 241, 0.03) 60px, rgba(99, 102, 241, 0.06) 100px, rgba(99, 102, 241, 0.03) 140px, transparent 140px, transparent 240px);
+            -webkit-mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+            mask-image: linear-gradient(to bottom, transparent, black 15%, black 85%, transparent);
+        }
+        
+        /* Custom Premium Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111827;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 9999px;
+            border: 2px solid #111827;
+            transition: background 0.3s;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6366f1;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-indigo-500 selection:text-white">
+
+
+
+    <!-- Dynamic Portfolio Lightbox -->
+    <div id="lightbox-modal" class="fixed inset-0 z-[9995] hidden items-center justify-center bg-black/95 backdrop-blur-xl transition-all duration-300" role="dialog" aria-modal="true">
+        <!-- Close Button -->
+        <button id="lightbox-close-btn" class="lightbox-close absolute top-6 right-6 z-[10000] text-gray-400 hover:text-white bg-gray-800/50 hover:bg-gray-800 p-3 rounded-full border border-gray-700/50 focus:outline-none transition-all" aria-label="Close Lightbox">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+
+        <!-- Navigation Arrows -->
+        <button id="lightbox-prev-btn" class="lightbox-arrow absolute left-4 top-1/2 -translate-y-1/2 z-[10000] text-white p-3 rounded-full focus:outline-none shadow-2xl hidden sm:flex" aria-label="Previous Video">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button id="lightbox-next-btn" class="lightbox-arrow absolute right-4 top-1/2 -translate-y-1/2 z-[10000] text-white p-3 rounded-full focus:outline-none shadow-2xl hidden sm:flex" aria-label="Next Video">
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+
+        <!-- Content Area -->
+        <div class="relative w-full max-w-4xl max-h-[90vh] px-6 py-12 overflow-y-auto md:overflow-visible flex flex-col md:flex-row items-center justify-center gap-8">
+            <!-- Video Player Column -->
+            <div class="relative w-full max-w-[280px] sm:max-w-[320px] aspect-[9/16] rounded-2xl overflow-hidden bg-gray-900 border border-gray-800 shadow-2xl flex-shrink-0">
+                <video id="lightbox-video" class="w-full h-full object-cover" loop playsinline controls></video>
+                <!-- Loading indicator -->
+                <div id="lightbox-loader" class="absolute inset-0 flex items-center justify-center bg-gray-900 z-10 transition-opacity duration-300">
+                    <div class="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
+                </div>
+            </div>
+
+            <!-- Details Column -->
+            <div class="w-full flex-grow text-left flex flex-col justify-center">
+                <span id="lightbox-tag" class="inline-block px-3 py-1 mb-4 rounded-md text-[10px] font-bold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 self-start">CATEGORY</span>
+                <h4 id="lightbox-title" class="text-2xl md:text-4xl font-black text-white mb-4 tracking-tight leading-tight">Project Title</h4>
+                <p id="lightbox-desc" class="text-gray-400 text-sm md:text-base leading-relaxed mb-8 max-w-lg">Description of the project goes here...</p>
+                
+                <div class="flex gap-4">
+                    <a href="https://wa.me/917284020388?text=Hi%20Amit%2C%20I%20saw%20your%20Motion%20Design%20portfolio%20and%20would%20love%20to%20discuss%20a%20project!" target="_blank" class="px-6 py-3 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm transition-all duration-200 shadow-lg shadow-indigo-500/20">Hire Me</a>
+                    <button id="lightbox-mute-btn" class="px-6 py-3 rounded-full border border-gray-700 hover:bg-gray-800 text-gray-300 text-sm font-bold transition-all flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path id="lightbox-vol-icon-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                        </svg>
+                        <span id="lightbox-mute-text">Unmute</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="intro-overlay" role="presentation">
+        <div class="intro-panel intro-top"></div>
+        <div class="intro-panel intro-bottom"></div>
+        <div class="intro-icon">A</div>
+    </div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- Header -->
+    <header class="fixed top-0 w-full z-50 bg-gray-900/95 backdrop-blur-md shadow-lg border-b border-gray-800 transition-all duration-300" id="main-header">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+            <h1 class="text-2xl font-black tracking-tight text-white hover:text-indigo-400 transition-colors cursor-pointer" onclick="window.scrollTo(0,0)">
+                Amit<span class="text-indigo-500">.</span>
+            </h1>
+            
+            <nav class="hidden sm:flex space-x-1">
+                <a href="#hero" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                <a href="#portfolio" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Portfolio</a>
+                <a href="#about" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">About</a>
+                <a href="#contact" class="nav-link text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors">Contact</a>
+            </nav>
+
+            <button id="mobile-menu-btn" class="sm:hidden text-gray-300 hover:text-white focus:outline-none p-2" aria-label="Menu">
+                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden sm:hidden absolute top-16 left-0 w-full bg-gray-900 border-b border-gray-800 shadow-2xl transition-all duration-300">
+            <div class="px-4 py-4 flex flex-col space-y-2">
+                <a href="#hero" class="mobile-link block px-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">Home</a>
+                <a href="#portfolio" class="mobile-link block px-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">Portfolio</a>
+                <a href="#about" class="mobile-link block px-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">About</a>
+                <a href="#contact" class="mobile-link block px-4 py-3 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">Contact</a>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <!-- Hero -->
+        <section id="hero" class="relative flex flex-col items-center justify-center text-center min-h-screen pt-16 overflow-hidden" aria-label="Introduction">
+            <div class="hero-bg" role="img"></div>
+            <div class="hero-overlay"></div>
+            <div class="relative z-10 px-4 w-full max-w-4xl mx-auto">
+                <h1 class="text-5xl sm:text-7xl md:text-8xl font-black text-white mb-6 opacity-0 translate-y-4 tracking-tight" id="hero-title"></h1>
+                <p class="text-lg sm:text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto opacity-0 translate-y-4 font-light leading-relaxed" id="hero-sub">Bringing your Story to Life with precision editing.</p>
+                <div class="mt-10 flex flex-col sm:flex-row justify-center gap-4 opacity-0 translate-y-4" id="hero-buttons">
+                    <a href="#portfolio" class="px-8 py-3.5 rounded-full bg-indigo-600 text-white font-bold shadow-lg shadow-indigo-500/30 hover:bg-indigo-700 hover:scale-105 transition-all duration-200">View Work</a>
+                    <a href="#contact" class="px-8 py-3.5 rounded-full bg-transparent text-white font-bold border border-gray-600 hover:bg-gray-800 hover:border-gray-500 transition-all duration-200">Get in Touch</a>
+                </div>
+            </div>
+            <div class="absolute bottom-8 w-full flex justify-center animate-bounce opacity-50">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </div>
+        </section>
+
+        <!-- Showreel Section -->
+        <section id="showreel-section" class="relative py-20 bg-gray-900 overflow-hidden border-t border-gray-800/30">
+            <div class="showreel-bg-pattern"></div>
+            <div class="max-w-4xl mx-auto px-6 relative z-10 text-center">
+                <div class="mb-10">
+                    <span class="inline-block px-3 py-1 mb-3 rounded-full text-[10px] font-bold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 border border-indigo-500/20">Featured Highlights</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-2 text-glow">Motion Showreel</h2>
+                    <p class="text-gray-400 text-sm max-w-md mx-auto">A quick compilation of high-impact visual style edits, motion designs, and key transitions.</p>
+                </div>
+
+                <!-- Sleek Showreel Player Container -->
+                <div id="showreel-container" class="relative rounded-2xl p-1 bg-gradient-to-br from-indigo-500/20 to-purple-500/5 shadow-2xl border border-gray-800 transition-all duration-500 hover:border-indigo-500/30 hover:shadow-indigo-500/10">
+                    <div class="relative aspect-[16/9] rounded-xl overflow-hidden bg-black group">
+                        <video id="main-showreel" class="w-full h-full object-cover opacity-0 transition-opacity duration-700" muted playsinline loop controls>
+                            <source src="Videos/resized/Jarvis%20-%20Livekit%20V99.webm" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video>
+                        
+                        <!-- Custom Mute Overlay -->
+                        <div class="absolute bottom-4 right-4 z-20 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <button id="showreel-mute-btn" class="bg-black/60 hover:bg-indigo-600 text-white p-2.5 rounded-full backdrop-blur-md border border-white/10 transition-colors focus:outline-none" aria-label="Mute Showreel">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path id="showreel-mute-path" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Initial Loading Overlay -->
+                        <div id="showreel-loader" class="absolute inset-0 flex items-center justify-center bg-gray-950 z-10 transition-opacity duration-500">
+                            <div class="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio -->
+        <section id="portfolio" class="relative pt-4 pb-24 sm:py-32 bg-gray-900 overflow-hidden">
+            <div class="bg-pattern showreel-bg-pattern"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 section-content hide-initial relative z-10">
+                
+
+
+                <!-- PORTFOLIO GRID -->
+                <div id="more-projects" class="mt-32 sm:mt-40 text-center">
+                    <h3 class="text-3xl sm:text-4xl font-extrabold text-white mb-2 text-glow">Edits Gallery</h3>
+                    <p class="text-gray-400 mb-10 text-sm max-w-md mx-auto">Hover on desktop or scroll on mobile to see live previews. Click/tap to play with sound in theater mode.</p>
+                    
+                    <!-- Dynamic Filter Pills -->
+                    <div class="flex flex-wrap justify-center gap-3 mb-12" id="filter-container">
+                        <button class="filter-pill active px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider focus:outline-none" data-filter="all">All Works</button>
+                        <button class="filter-pill px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider focus:outline-none" data-filter="ugc">UGC & Fitness</button>
+                        <button class="filter-pill px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider focus:outline-none" data-filter="motion">Motion Graphics</button>
+                        <button class="filter-pill px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wider focus:outline-none" data-filter="creative">Creative & 3D</button>
+                    </div>
+
+                    <!-- Portfolio Grid -->
+                    <div class="relative w-full max-w-6xl mx-auto px-4">
+                        <div id="portfolio-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 transition-all duration-500">
+                            <!-- Items injected dynamically by JS -->
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- About -->
+        <section id="about" class="py-20 sm:py-32 bg-gray-900 border-t border-gray-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 section-content hide-initial">
+                <div class="lg:grid lg:grid-cols-2 lg:gap-16 items-start">
+                    <div class="mb-12 lg:mb-0">
+                        <h3 class="text-3xl sm:text-4xl font-extrabold text-white mb-8">The Designer Behind the Screen</h3>
+                        <div class="space-y-8">
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 flex-shrink-0"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                                <div><h4 class="text-xl font-bold text-white mb-2">Visual Storytelling</h4><p class="text-gray-400">My journey began with YouTube content creation, evolving into a passion for crafting narratives that engage and retain audiences.</p></div>
+                            </div>
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20 flex-shrink-0"><svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg></div>
+                                <div><h4 class="text-xl font-bold text-white mb-2">Niche Expertise</h4><p class="text-gray-400">Specialized in high-end Real Estate walkthroughs and fast-paced UGC/Short-form content designed for viral growth.</p></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800/50 backdrop-blur-sm p-8 rounded-2xl border border-gray-700 shadow-xl">
+                        <h4 class="text-2xl font-bold text-white mb-6">Technical Arsenal</h4>
+                        <div class="grid grid-cols-2 gap-4 mb-8">
+                            <div class="p-4 rounded-xl bg-gray-900 border border-gray-700 flex items-center gap-3"><div class="font-black text-purple-400 text-lg">Pr</div><div class="text-sm font-semibold text-gray-200">Premiere Pro</div></div>
+                            <div class="p-4 rounded-xl bg-gray-900 border border-gray-700 flex items-center gap-3"><div class="font-black text-indigo-400 text-lg">Ae</div><div class="text-sm font-semibold text-gray-200">After Effects</div></div>
+                            <div class="p-4 rounded-xl bg-gray-900 border border-gray-700 flex items-center gap-3"><div class="font-black text-blue-400 text-lg">Ps</div><div class="text-sm font-semibold text-gray-200">Photoshop</div></div>
+                            <div class="p-4 rounded-xl bg-gray-900 border border-gray-700 flex items-center gap-3"><div class="font-black text-rose-400 text-lg">Dv</div><div class="text-sm font-semibold text-gray-200">Resolve</div></div>
+                        </div>
+                        <div>
+                            <h5 class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3">Capabilities</h5>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-3 py-1 bg-gray-700/50 rounded-lg text-xs font-medium text-gray-300">Motion Graphics</span>
+                                <span class="px-3 py-1 bg-gray-700/50 rounded-lg text-xs font-medium text-gray-300">Color Grading</span>
+                                <span class="px-3 py-1 bg-gray-700/50 rounded-lg text-xs font-medium text-gray-300">Sound Design</span>
+                                <span class="px-3 py-1 bg-gray-700/50 rounded-lg text-xs font-medium text-gray-300">3D Camera Tracking</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="relative py-20 sm:py-32 bg-gray-900 overflow-hidden">
+            <div class="contact-glow"></div>
+            <div class="bg-pattern contact-bg-pattern"></div>
+            <div class="max-w-2xl mx-auto px-4 text-center section-content hide-initial relative z-10">
+                <h3 class="text-4xl font-extrabold text-white mb-4">Let's Create Together</h3>
+                <p class="text-xl text-gray-400 mb-10">Ready to elevate your content? Reach out directly via WhatsApp or Email.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6">
+                    <a href="https://wa.me/917284020388?text=Hi%20Amit%2C%20I%20saw%20your%20Motion%20Design%20portfolio%20and%20would%20love%20to%20discuss%20a%20project!" target="_blank" class="group flex items-center justify-center px-8 py-4 rounded-xl bg-green-600 text-white font-bold text-lg shadow-lg hover:bg-green-700 transition-all duration-200">
+                        <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        WhatsApp
+                    </a>
+                    <a href="mailto:amitparmar7990@gmail.com" class="group flex items-center justify-center px-8 py-4 rounded-xl bg-gray-800 text-indigo-400 font-bold text-lg border border-gray-700 hover:bg-gray-700 transition-all duration-200">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        Email Me
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 border-t border-gray-800 py-8 text-center">
+        <p class="text-gray-500 text-sm">&copy; 2025 Amit. All Rights Reserved.</p>
+    </footer>
+
+    <!-- MAIN SCRIPT -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // === INTRO ===
+            setTimeout(() => {
+                document.querySelector('.intro-top').style.transform = 'translateY(-100%)';
+                document.querySelector('.intro-bottom').style.transform = 'translateY(100%)';
+                document.querySelector('.intro-icon').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('intro-overlay').style.display = 'none';
+                    animateHero();
+                }, 500);
+            }, 200);
+
+            function animateHero() {
+                const title = document.getElementById('hero-title');
+                const words = ["Real to Reel", "Motion Graphics", "3D Composite", "UGC Fitness"];
+                title.style.opacity = 1; title.style.transform = 'translateY(0)';
+                title.classList.add('typing-cursor');
+                
+                let wordIdx = 0;
+                let charIdx = 0;
+                let isDeleting = false;
+                let hasRevealed = false;
+                
+                function typeLoop() {
+                    const currentWord = words[wordIdx];
+                    
+                    if (isDeleting) {
+                        title.textContent = currentWord.substring(0, charIdx - 1);
+                        charIdx--;
+                    } else {
+                        title.textContent = currentWord.substring(0, charIdx + 1);
+                        charIdx++;
+                    }
+                    
+                    let delay = isDeleting ? 40 : 80;
+                    
+                    if (!isDeleting && charIdx === currentWord.length) {
+                        delay = 2000; // Pause at end of word
+                        isDeleting = true;
+                        
+                        if (!hasRevealed) {
+                            hasRevealed = true;
+                            revealHero();
+                        }
+                    } else if (isDeleting && charIdx === 0) {
+                        isDeleting = false;
+                        wordIdx = (wordIdx + 1) % words.length;
+                        delay = 500; // Pause before typing next word
+                    }
+                    
+                    setTimeout(typeLoop, delay);
+                }
+                
+                setTimeout(typeLoop, 200);
+            }
+
+            function revealHero() {
+                ['hero-sub', 'hero-buttons'].forEach(id => {
+                    const el = document.getElementById(id);
+                    if(el) { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }
+                });
+                initApp();
+            }
+
+            // === MAIN APP INIT ===
+            function initApp() {
+                initHeader();
+                initScrollObserver();
+                initShowreel();
+                initVideoGrid();
+                initCustomCursor();
+            }
+
+            // === HEADER / MOBILE MENU ===
+            function initHeader() {
+                const btn = document.getElementById('mobile-menu-btn');
+                const menu = document.getElementById('mobile-menu');
+                const links = document.querySelectorAll('.mobile-link');
+
+                if(btn && menu) {
+                    btn.addEventListener('click', () => {
+                        menu.classList.toggle('hidden');
+                    });
+                    links.forEach(l => {
+                        l.addEventListener('click', () => menu.classList.add('hidden'));
+                    });
+                }
+            }
+
+            // === SCROLL OBSERVER & VIDEO FADE-IN ===
+            function initScrollObserver() {
+                const obs = new IntersectionObserver((entries, o) => {
+                    entries.forEach(e => {
+                        if (e.isIntersecting) {
+                            e.target.classList.remove('hide-initial');
+                            e.target.classList.add('animate-in');
+                            if(e.target.id === 'portfolio-grid') e.target.style.opacity = '1';
+                            o.unobserve(e.target);
+                        }
+                    });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.section-content, #portfolio-grid').forEach(el => obs.observe(el));
+
+                // ScrollSpy
+                const navLinks = document.querySelectorAll('.nav-link');
+                const spy = new IntersectionObserver((entries) => {
+                    entries.forEach(e => {
+                        if(e.isIntersecting) {
+                            navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === `#${e.target.id}`));
+                        }
+                    });
+                }, { threshold: 0.3 });
+                document.querySelectorAll('section').forEach(s => spy.observe(s));
+
+            }
+
+            // === FEATURED SHOWREEL PLAYER ===
+            function initShowreel() {
+                const showreel = document.getElementById('main-showreel');
+                const loader = document.getElementById('showreel-loader');
+                const muteBtn = document.getElementById('showreel-mute-btn');
+                const mutePath = document.querySelector('#showreel-mute-btn path');
+
+                if (!showreel) return;
+
+                // 1. Reveal video on load
+                showreel.addEventListener('loadeddata', () => {
+                    if (loader) {
+                        loader.style.opacity = '0';
+                        loader.style.pointerEvents = 'none';
+                    }
+                    showreel.style.opacity = '1';
+                });
+
+                // Force load
+                showreel.load();
+
+                // 2. Viewport-aware Autoplay (Play when visible, Pause when scrolled away)
+                const playObserver = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            showreel.play().catch(e => console.log("Showreel Autoplay Blocked:", e));
+                        } else {
+                            showreel.pause();
+                        }
+                    });
+                }, { threshold: 0.2 }); // Plays when 20% of player is visible
+
+                playObserver.observe(showreel);
+
+                // 3. Mute/Unmute toggle
+                if (muteBtn && mutePath) {
+                    let isMuted = true;
+                    muteBtn.addEventListener('click', () => {
+                        isMuted = !isMuted;
+                        showreel.muted = isMuted;
+                        
+                        if (isMuted) {
+                            // Muted path (Speaker with slash)
+                            mutePath.setAttribute('d', 'M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2');
+                        } else {
+                            // Unmuted path (Speaker with sound waves)
+                            mutePath.setAttribute('d', 'M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z');
+                        }
+                    });
+                }
+            }
+
+            // === CUSTOM CURSOR ===
+            function initCustomCursor() {
+                if (!window.matchMedia("(pointer: fine)").matches) return;
+                const dot = document.querySelector('.cursor-dot');
+                const ring = document.querySelector('.cursor-ring');
+                let mx = 0, my = 0, rx = 0, ry = 0;
+                
+                document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`; });
+                function loop() {
+                    rx += (mx - rx) * 0.2; ry += (my - ry) * 0.2;
+                    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+                    requestAnimationFrame(loop);
+                }
+                loop();
+                
+                // Use event delegation for high-performance dynamic hover tracking
+                document.addEventListener('mouseover', e => {
+                    if (e.target.closest('a, button, input, video, .video-card, .filter-pill')) {
+                        document.body.classList.add('cursor-pointer-active');
+                    } else {
+                        document.body.classList.remove('cursor-pointer-active');
+                    }
+                });
+            }
+
+            // === MODERN RESPONSIVE VIDEO GRID & CINEMA LIGHTBOX ===
+            function initVideoGrid() {
+                const videoData = [
+                    { 
+                        title: "Food UGC Commercial",
+                        file: "Videos/resized/food.webm",
+                        category: "ugc",
+                        desc: "High-impact commercial video edit showcasing dynamic pacing, color correction, and smooth text animation designed to drive product conversions."
+                    }, 
+                    { 
+                        title: "Gym UGC Fitness Reel",
+                        file: "Videos/resized/Gym%20Viral%20Effect.webm",
+                        category: "ugc",
+                        desc: "Fast-paced UGC fitness showcase with energetic sound effects, synced beat transitions, and viral effects to maximize social engagement."
+                    }, 
+                    { 
+                        title: "Website Motion Graphics",
+                        file: "Videos/resized/Website%20Header2.webm",
+                        category: "motion",
+                        desc: "Sleek motion graphics showcase designed for website headers, combining smooth vector animations, layout composition, and professional text tracking."
+                    },
+                    { 
+                        title: "Object Removal Process",
+                        file: "Videos/resized/%5BZm%5D%20-%20%5BCh%5D%20-%20Removal%20Process.webm",
+                        category: "motion",
+                        desc: "Behind-the-scenes visual cleanup edit showing advanced object masking, tracking, and seamless background patching."
+                    },
+                    { 
+                        title: "Dynamic Showreel Compilation",
+                        file: "Videos/resized/resized.webm",
+                        category: "creative",
+                        desc: "Montage compilation highlighting rapid sound syncing, screen transitions, visual overlays, and cinematic color adjustments."
+                    },
+                    { 
+                        title: "3D Camera Tracking",
+                        file: "Videos/resized/3D%20Edit.webm",
+                        category: "creative",
+                        desc: "Creative visual showcase using advanced 3D camera tracking, virtual element integration, and seamless composite overlays."
+                    } 
+                ];
+
+                const grid = document.getElementById('portfolio-grid');
+                const filterContainer = document.getElementById('filter-container');
+                if (!grid) return;
+
+                let activeFilter = 'all';
+                let filteredItems = [...videoData];
+                let currentLightboxIndex = 0;
+
+                // --- 1. RENDER GRID CARDS ---
+                function renderGrid() {
+                    grid.innerHTML = '';
+                    
+                    videoData.forEach((data, index) => {
+                        const card = document.createElement('div');
+                        card.className = 'video-card relative w-full aspect-[9/16] cursor-pointer transition-all duration-500';
+                        card.setAttribute('data-category', data.category);
+                        card.setAttribute('data-index', index);
+                        
+                        card.innerHTML = `
+                            <div class="relative w-full h-full">
+                                <!-- Card Placeholder (z-20 so it sits on top initially) -->
+                                <div class="card-placeholder absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center">
+                                    <div class="card-placeholder-icon mb-4">A</div>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded mb-2">${data.category === 'ugc' ? 'UGC & Fitness' : data.category === 'motion' ? 'Motion Graphics' : 'Creative & 3D'}</span>
+                                    <h4 class="text-base font-black text-white tracking-tight leading-snug px-4">${data.title}</h4>
+                                </div>
+
+                                <!-- Video Container (z-10 so it stays underneath until loaded) -->
+                                <div class="video-container absolute inset-0 z-10 overflow-hidden bg-black flex items-center justify-center">
+                                    <!-- Video will be dynamically injected here -->
+                                </div>
+
+                                <!-- Play Overlay -->
+                                <div class="absolute inset-0 z-30 flex items-center justify-center bg-black/30 opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                    <div class="w-14 h-14 rounded-full bg-indigo-600/90 flex items-center justify-center text-white shadow-lg border border-indigo-400/30 scale-90 hover:scale-100 transition-all duration-300">
+                                        <svg class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        
+                        grid.appendChild(card);
+                        
+                        // Setup Dynamic Event Listeners for Hover (Desktop)
+                        if (window.matchMedia("(pointer: fine)").matches) {
+                            card.addEventListener('mouseenter', () => loadAndPlayPreview(card, data));
+                            card.addEventListener('mouseleave', () => stopAndUnloadPreview(card));
+                        }
+                        
+                        // Click Handler to Open Lightbox
+                        card.addEventListener('click', () => openLightbox(index));
+                    });
+
+                    // Mobile Viewport Autoplay Observer
+                    if (!window.matchMedia("(pointer: fine)").matches) {
+                        initMobileAutoplay();
+                    }
+                }
+
+                // --- 2. CARD VIDEO PREVIEW LOGIC (LAZY LOADING & UNLOADING) ---
+                function loadAndPlayPreview(cardEl, data) {
+                    const container = cardEl.querySelector('.video-container');
+                    if (!container || cardEl.querySelector('video')) return; // already loaded
+
+                    const video = document.createElement('video');
+                    video.src = data.file;
+                    video.muted = true;
+                    video.loop = true;
+                    video.playsInline = true;
+                    video.className = 'video-card-video w-full h-full object-cover';
+                    
+                    video.addEventListener('loadeddata', () => {
+                        video.classList.add('loaded');
+                        cardEl.classList.add('video-loaded'); // Reveal video and fade out placeholder
+                        video.play().catch(e => console.log("Card Play Error:", e));
+                    });
+                    
+                    video.load();
+                    container.appendChild(video);
+                }
+
+                function stopAndUnloadPreview(cardEl) {
+                    cardEl.classList.remove('video-loaded'); // Fade placeholder back in immediately
+                    const container = cardEl.querySelector('.video-container');
+                    const video = cardEl.querySelector('video');
+                    if (video) {
+                        video.pause();
+                        video.removeAttribute('src');
+                        video.load();
+                        video.remove();
+                    }
+                }
+
+                // Mobile Autoplay Observer (Plays the video card closest to the viewport center)
+                function initMobileAutoplay() {
+                    const options = {
+                        root: null,
+                        rootMargin: '-25% 0px -25% 0px', // focused in the middle of screen
+                        threshold: 0.6
+                    };
+
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            const index = parseInt(entry.target.getAttribute('data-index'));
+                            const data = videoData[index];
+                            
+                            if (entry.isIntersecting) {
+                                // Scroll into view -> Load and Play
+                                loadAndPlayPreview(entry.target, data);
+                            } else {
+                                // Scroll out of view -> Pause and Unload to save memory
+                                stopAndUnloadPreview(entry.target);
+                            }
+                        });
+                    }, options);
+
+                    grid.querySelectorAll('.video-card').forEach(card => observer.observe(card));
+                }
+
+                // --- 3. FILTERING LOGIC ---
+                if (filterContainer) {
+                    filterContainer.addEventListener('click', (e) => {
+                        const button = e.target.closest('.filter-pill');
+                        if (!button) return;
+
+                        filterContainer.querySelectorAll('.filter-pill').forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+
+                        activeFilter = button.getAttribute('data-filter');
+                        applyFilter();
+                    });
+                }
+
+                function applyFilter() {
+                    const cards = grid.querySelectorAll('.video-card');
+                    
+                    filteredItems = videoData.filter((item, index) => {
+                        return activeFilter === 'all' || item.category === activeFilter;
+                    });
+
+                    cards.forEach(card => {
+                        const category = card.getAttribute('data-category');
+                        if (activeFilter === 'all' || category === activeFilter) {
+                            card.style.display = 'block';
+                            setTimeout(() => {
+                                card.style.opacity = '1';
+                                card.style.transform = 'scale(1)';
+                            }, 50);
+                        } else {
+                            card.style.opacity = '0';
+                            card.style.transform = 'scale(0.85)';
+                            setTimeout(() => {
+                                card.style.display = 'none';
+                            }, 400); // match transition
+                            
+                            // Unload it since it's hidden
+                            stopAndUnloadPreview(card);
+                        }
+                    });
+                }
+
+                // --- 4. PREMIUM LIGHTBOX LOGIC ---
+                const modal = document.getElementById('lightbox-modal');
+                const lbVideo = document.getElementById('lightbox-video');
+                const lbTitle = document.getElementById('lightbox-title');
+                const lbTag = document.getElementById('lightbox-tag');
+                const lbDesc = document.getElementById('lightbox-desc');
+                const lbLoader = document.getElementById('lightbox-loader');
+                const lbClose = document.getElementById('lightbox-close-btn');
+                const lbPrev = document.getElementById('lightbox-prev-btn');
+                const lbNext = document.getElementById('lightbox-next-btn');
+                const lbMuteBtn = document.getElementById('lightbox-mute-btn');
+                const lbMuteText = document.getElementById('lightbox-mute-text');
+                const lbMuteIconPath = document.getElementById('lightbox-vol-icon-path');
+
+                let lightboxMuted = false; // default unmuted inside cinema theater mode
+
+                function openLightbox(originalIndex) {
+                    currentLightboxIndex = originalIndex;
+                    updateLightboxContent();
+                    
+                    modal.classList.remove('hidden');
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden'; // Lock background scroll
+                    
+                    // Stop custom cursor rings from showing hover states inside lightbox
+                    document.body.classList.remove('cursor-pointer-active');
+                }
+
+                function closeLightbox() {
+                    lbVideo.pause();
+                    lbVideo.removeAttribute('src');
+                    lbVideo.load();
+                    
+                    modal.classList.remove('active');
+                    setTimeout(() => {
+                        modal.classList.add('hidden');
+                    }, 300);
+                    
+                    document.body.style.overflow = ''; // Unlock scroll
+                }
+
+                function updateLightboxContent() {
+                    const data = videoData[currentLightboxIndex];
+                    if (!data) return;
+
+                    // Show loader
+                    lbLoader.style.opacity = '1';
+                    lbLoader.style.pointerEvents = 'auto';
+
+                    // Update details
+                    lbTitle.textContent = data.title;
+                    lbTag.textContent = data.category === 'ugc' ? 'UGC & Fitness' : data.category === 'motion' ? 'Motion Graphics' : 'Creative & 3D';
+                    lbDesc.textContent = data.desc;
+
+                    // Setup video
+                    lbVideo.src = data.file;
+                    lbVideo.muted = lightboxMuted;
+                    
+                    // Update Volume Button Appearance
+                    updateMuteButtonUI();
+
+                    lbVideo.addEventListener('loadeddata', () => {
+                        lbLoader.style.opacity = '0';
+                        lbLoader.style.pointerEvents = 'none';
+                        lbVideo.play().catch(e => console.log("Lightbox Play Autoplay block:", e));
+                    }, { once: true });
+
+                    lbVideo.load();
+
+                    // Manage navigation arrows visibility based on current filtered items
+                    updateLightboxNav();
+                }
+
+                function updateMuteButtonUI() {
+                    if (lightboxMuted) {
+                        lbMuteText.textContent = "Unmute";
+                        // Muted SVG path (Speaker with slash)
+                        lbMuteIconPath.setAttribute('d', 'M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2');
+                    } else {
+                        lbMuteText.textContent = "Mute";
+                        // Speaker active sound path
+                        lbMuteIconPath.setAttribute('d', 'M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z');
+                    }
+                }
+
+                function updateLightboxNav() {
+                    // Find active indices in current filtered set
+                    const currentIndexInFiltered = filteredItems.findIndex(item => item.file === videoData[currentLightboxIndex].file);
+                    
+                    if (currentIndexInFiltered <= 0) {
+                        lbPrev.classList.add('opacity-40', 'pointer-events-none');
+                    } else {
+                        lbPrev.classList.remove('opacity-40', 'pointer-events-none');
+                    }
+
+                    if (currentIndexInFiltered >= filteredItems.length - 1) {
+                        lbNext.classList.add('opacity-40', 'pointer-events-none');
+                    } else {
+                        lbNext.classList.remove('opacity-40', 'pointer-events-none');
+                    }
+                }
+
+                function navigateLightbox(dir) {
+                    const currentIndexInFiltered = filteredItems.findIndex(item => item.file === videoData[currentLightboxIndex].file);
+                    let newIndexInFiltered = currentIndexInFiltered + dir;
+
+                    if (newIndexInFiltered >= 0 && newIndexInFiltered < filteredItems.length) {
+                        const targetItem = filteredItems[newIndexInFiltered];
+                        const newOriginalIndex = videoData.findIndex(item => item.file === targetItem.file);
+                        
+                        currentLightboxIndex = newOriginalIndex;
+                        updateLightboxContent();
+                    }
+                }
+
+                // Mute Click Handler
+                if (lbMuteBtn) {
+                    lbMuteBtn.onclick = () => {
+                        lightboxMuted = !lightboxMuted;
+                        lbVideo.muted = lightboxMuted;
+                        updateMuteButtonUI();
+                    };
+                }
+
+                // Close Click
+                if (lbClose) lbClose.onclick = closeLightbox;
+                modal.onclick = (e) => {
+                    if (e.target === modal) closeLightbox();
+                };
+
+                // Arrows Click
+                if (lbPrev) lbPrev.onclick = () => navigateLightbox(-1);
+                if (lbNext) lbNext.onclick = () => navigateLightbox(1);
+
+                // Keyboard events
+                window.addEventListener('keydown', (e) => {
+                    if (!modal.classList.contains('active')) return;
+                    if (e.key === 'Escape') closeLightbox();
+                    if (e.key === 'ArrowLeft') navigateLightbox(-1);
+                    if (e.key === 'ArrowRight') navigateLightbox(1);
+                });
+
+                // --- 5. RUN INITIAL RENDER ---
+                renderGrid();
+            }
+        });
+    </script>
+</body>
+</html>
