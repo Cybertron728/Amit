@@ -515,7 +515,7 @@
                 <!-- Sleek Showreel Player Container -->
                 <div id="showreel-container" class="relative rounded-2xl p-1 bg-gradient-to-br from-indigo-500/20 to-purple-500/5 shadow-2xl border border-gray-800 transition-all duration-500 hover:border-indigo-500/30 hover:shadow-indigo-500/10">
                     <div class="relative aspect-[16/9] rounded-xl overflow-hidden bg-black group">
-                        <video id="main-showreel" class="w-full h-full object-cover opacity-0 transition-opacity duration-700" data-src="https://res.cloudinary.com/dbhuile2b/video/upload/v1779869824/jarvis_unt5cx.webm" muted playsinline loop controls preload="metadata">
+                        <video id="main-showreel" class="w-full h-full object-cover opacity-0 transition-opacity duration-700" data-src="https://res.cloudinary.com/dbhuile2b/video/upload/q_auto/v1779869824/jarvis_unt5cx.webm" muted playsinline loop controls preload="metadata">
                             Your browser does not support the video tag.
                         </video>
                         
@@ -843,19 +843,19 @@
 
             // === MODERN RESPONSIVE VIDEO GRID & CINEMA LIGHTBOX ===
             function initVideoGrid() {
-                const cloudinaryVideo = (version, publicId) => `https://res.cloudinary.com/dbhuile2b/video/upload/v${version}/${publicId}.webm`;
+                const cloudinaryVideo = (version, publicId) => `https://res.cloudinary.com/dbhuile2b/video/upload/q_auto/v${version}/${publicId}.webm`;
                 const cloudinaryPoster = (version, publicId) => `https://res.cloudinary.com/dbhuile2b/video/upload/so_0,w_324,h_576,c_fill,q_auto,f_jpg/v${version}/${publicId}.jpg`;
                 const videoData = [
                     { 
                         title: "Food UGC Commercial",
-                        file: cloudinaryVideo(1779869869, "food_uay8ef"),
+                        file: "https://res.cloudinary.com/dbhuile2b/video/upload/v1779869869/food_uay8ef.webm",
                         poster: cloudinaryPoster(1779869869, "food_uay8ef"),
                         category: "ugc",
                         desc: "High-impact commercial video edit showcasing dynamic pacing, color correction, and smooth text animation designed to drive product conversions."
                     }, 
                     { 
                         title: "Gym UGC Fitness Reel",
-                        file: cloudinaryVideo(1779869867, "gym_cla3tn"),
+                        file: "https://res.cloudinary.com/dbhuile2b/video/upload/v1779869867/gym_cla3tn.webm",
                         poster: cloudinaryPoster(1779869867, "gym_cla3tn"),
                         category: "ugc",
                         desc: "Fast-paced UGC fitness showcase with energetic sound effects, synced beat transitions, and viral effects to maximize social engagement."
