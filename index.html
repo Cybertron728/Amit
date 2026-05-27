@@ -406,6 +406,10 @@
         <div class="relative w-full max-w-4xl max-h-[90vh] px-6 py-12 overflow-y-auto md:overflow-visible flex flex-col md:flex-row items-center justify-center gap-8">
             <!-- Video Player Column -->
             <div class="relative w-full max-w-[280px] sm:max-w-[320px] aspect-[9/16] rounded-2xl overflow-hidden bg-gray-900 border border-gray-800 shadow-2xl flex-shrink-0">
+                <!-- Glowing Progress/Loading Bar -->
+                <div id="lightbox-loading-bar-container" class="absolute top-0 left-0 right-0 h-1 bg-gray-800/40 z-20 overflow-hidden opacity-100 transition-opacity duration-300">
+                    <div id="lightbox-loading-bar" class="h-full w-0 bg-indigo-500 shadow-[0_0_12px_#6366f1] transition-all duration-300"></div>
+                </div>
                 <video id="lightbox-video" class="w-full h-full object-cover" loop playsinline controls></video>
                 <!-- Loading indicator -->
                 <div id="lightbox-loader" class="absolute inset-0 flex items-center justify-center bg-gray-900 z-10 transition-opacity duration-300">
@@ -1042,15 +1046,11 @@
                 const lbMuteBtn = document.getElementById('lightbox-mute-btn');
                 const lbMuteText = document.getElementById('lightbox-mute-text');
                 const lbMuteIconPath = document.getElementById('lightbox-vol-icon-path');
+                const lbLoadingBarContainer = document.getElementById('lightbox-loading-bar-container');
+                const lbLoadingBar = document.getElementById('lightbox-loading-bar');
 
                 let lightboxMuted = false; // default unmuted inside cinema theater mode
-
-                // Hidden prefetch video element to buffer the next video in background
-                const prefetchVideo = document.createElement('video');
-                prefetchVideo.muted = true;
-                prefetchVideo.preload = 'auto';
-                prefetchVideo.style.display = 'none';
-                document.body.appendChild(prefetchVideo);
+                let activeProgressHandler = null;
 
                 function openLightbox(originalIndex) {
                     currentLightboxIndex = originalIndex;
@@ -1065,13 +1065,14 @@
                 }
 
                 function closeLightbox() {
+                    if (activeProgressHandler) {
+                        lbVideo.removeEventListener('progress', activeProgressHandler);
+                        activeProgressHandler = null;
+                    }
+
                     lbVideo.pause();
                     lbVideo.removeAttribute('src');
                     lbVideo.load();
-                    
-                    // Clear prefetch to save background bandwidth
-                    prefetchVideo.removeAttribute('src');
-                    prefetchVideo.load();
                     
                     modal.classList.remove('active');
                     setTimeout(() => {
@@ -1085,9 +1086,18 @@
                     const data = videoData[currentLightboxIndex];
                     if (!data) return;
 
+                    // Clean up previous event listener if active
+                    if (activeProgressHandler) {
+                        lbVideo.removeEventListener('progress', activeProgressHandler);
+                    }
+
                     // Show loader
                     lbLoader.style.opacity = '1';
                     lbLoader.style.pointerEvents = 'auto';
+
+                    // Initialize Glowing Progress Bar
+                    lbLoadingBar.style.width = '0%';
+                    lbLoadingBarContainer.style.opacity = '1';
 
                     // Update details
                     lbTitle.textContent = data.title;
@@ -1101,33 +1111,41 @@
                     // Update Volume Button Appearance
                     updateMuteButtonUI();
 
+                    // Track actual video file download percentage
+                    activeProgressHandler = () => {
+                        if (lbVideo.buffered.length > 0) {
+                            const bufferedEnd = lbVideo.buffered.end(lbVideo.buffered.length - 1);
+                            const duration = lbVideo.duration;
+                            if (duration > 0) {
+                                const percent = Math.min((bufferedEnd / duration) * 100, 100);
+                                lbLoadingBar.style.width = `${percent}%`;
+                            }
+                        }
+                    };
+                    lbVideo.addEventListener('progress', activeProgressHandler);
+
                     lbVideo.addEventListener('loadeddata', () => {
                         lbLoader.style.opacity = '0';
                         lbLoader.style.pointerEvents = 'none';
+
+                        // Fill progress bar and fade it out smoothly
+                        lbLoadingBar.style.width = '100%';
+                        setTimeout(() => {
+                            lbLoadingBarContainer.style.opacity = '0';
+                        }, 200);
+
                         lbVideo.play().catch(e => console.log("Lightbox Play Autoplay block:", e));
+                        
+                        if (activeProgressHandler) {
+                            lbVideo.removeEventListener('progress', activeProgressHandler);
+                            activeProgressHandler = null;
+                        }
                     }, { once: true });
 
                     lbVideo.load();
 
                     // Manage navigation arrows visibility based on current filtered items
                     updateLightboxNav();
-
-                    // Prefetch the next video in the filtered set to ensure buttery-smooth next playback
-                    prefetchNextVideo();
-                }
-
-                function prefetchNextVideo() {
-                    const currentIndexInFiltered = filteredItems.findIndex(item => item.file === videoData[currentLightboxIndex].file);
-                    const nextIndexInFiltered = currentIndexInFiltered + 1;
-
-                    if (nextIndexInFiltered < filteredItems.length) {
-                        const nextVideoData = filteredItems[nextIndexInFiltered];
-                        prefetchVideo.src = nextVideoData.file;
-                        prefetchVideo.load();
-                    } else {
-                        prefetchVideo.removeAttribute('src');
-                        prefetchVideo.load();
-                    }
                 }
 
                 function updateMuteButtonUI() {
