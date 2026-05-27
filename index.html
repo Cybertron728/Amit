@@ -301,6 +301,16 @@
             z-index: 20;
             transition: opacity 0.4s ease, transform 0.4s ease;
         }
+
+        .card-poster {
+            opacity: 0.8;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+
+        .video-card:hover .card-poster {
+            opacity: 1;
+            transform: scale(1.04);
+        }
         
         .video-card.video-loaded .card-placeholder {
             opacity: 0;
@@ -505,7 +515,7 @@
                 <!-- Sleek Showreel Player Container -->
                 <div id="showreel-container" class="relative rounded-2xl p-1 bg-gradient-to-br from-indigo-500/20 to-purple-500/5 shadow-2xl border border-gray-800 transition-all duration-500 hover:border-indigo-500/30 hover:shadow-indigo-500/10">
                     <div class="relative aspect-[16/9] rounded-xl overflow-hidden bg-black group">
-                        <video id="main-showreel" class="w-full h-full object-cover opacity-0 transition-opacity duration-700" data-src="https://res.cloudinary.com/dbhuile2b/video/upload/q_auto/f_auto/v1779869824/jarvis_unt5cx.webm" muted playsinline loop controls>
+                        <video id="main-showreel" class="w-full h-full object-cover opacity-0 transition-opacity duration-700" data-src="https://res.cloudinary.com/dbhuile2b/video/upload/v1779869824/jarvis_unt5cx.webm" muted playsinline loop controls preload="metadata">
                             Your browser does not support the video tag.
                         </video>
                         
@@ -833,40 +843,48 @@
 
             // === MODERN RESPONSIVE VIDEO GRID & CINEMA LIGHTBOX ===
             function initVideoGrid() {
+                const cloudinaryVideo = (version, publicId) => `https://res.cloudinary.com/dbhuile2b/video/upload/v${version}/${publicId}.webm`;
+                const cloudinaryPoster = (version, publicId) => `https://res.cloudinary.com/dbhuile2b/video/upload/so_0,w_324,h_576,c_fill,q_auto,f_jpg/v${version}/${publicId}.jpg`;
                 const videoData = [
                     { 
                         title: "Food UGC Commercial",
-                        file: "https://res.cloudinary.com/dbhuile2b/video/upload/q_auto/f_auto/v1779869869/food_uay8ef.webm",
+                        file: cloudinaryVideo(1779869869, "food_uay8ef"),
+                        poster: cloudinaryPoster(1779869869, "food_uay8ef"),
                         category: "ugc",
                         desc: "High-impact commercial video edit showcasing dynamic pacing, color correction, and smooth text animation designed to drive product conversions."
                     }, 
                     { 
                         title: "Gym UGC Fitness Reel",
-                        file: "https://res.cloudinary.com/dbhuile2b/video/upload/q_auto/f_auto/v1779869867/gym_cla3tn.webm",
+                        file: cloudinaryVideo(1779869867, "gym_cla3tn"),
+                        poster: cloudinaryPoster(1779869867, "gym_cla3tn"),
                         category: "ugc",
                         desc: "Fast-paced UGC fitness showcase with energetic sound effects, synced beat transitions, and viral effects to maximize social engagement."
                     }, 
                     { 
                         title: "Website Motion Graphics",
-                        file: "https://res.cloudinary.com/dbhuile2b/video/upload/q_auto/f_auto/v1779869853/website_s9usc2.webm",
+                        file: cloudinaryVideo(1779869853, "website_s9usc2"),
+                        poster: cloudinaryPoster(1779869853, "website_s9usc2"),
                         category: "motion",
                         desc: "Sleek motion graphics showcase designed for website headers, combining smooth vector animations, layout composition, and professional text tracking."
                     }, 
                     { 
                         title: "Object Removal Process",
-                        file: "https://res.cloudinary.com/dbhuile2b/video/upload/q_auto/f_auto/v1779869778/removal_ritgz0.webm",
+                        file: cloudinaryVideo(1779869778, "removal_ritgz0"),
+                        poster: cloudinaryPoster(1779869778, "removal_ritgz0"),
                         category: "motion",
                         desc: "Behind-the-scenes visual cleanup edit showing advanced object masking, tracking, and seamless background patching."
                     }, 
                     { 
                         title: "Dynamic Showreel Compilation",
-                        file: "https://res.cloudinary.com/dbhuile2b/video/upload/q_auto/f_auto/v1779869863/resized_enabkn.webm",
+                        file: cloudinaryVideo(1779869863, "resized_enabkn"),
+                        poster: cloudinaryPoster(1779869863, "resized_enabkn"),
                         category: "creative",
                         desc: "Montage compilation highlighting rapid sound syncing, screen transitions, visual overlays, and cinematic color adjustments."
                     }, 
                     { 
                         title: "3D Camera Tracking",
-                        file: "https://res.cloudinary.com/dbhuile2b/video/upload/q_auto/f_auto/v1779869786/3d_s79tes.webm",
+                        file: cloudinaryVideo(1779869786, "3d_s79tes"),
+                        poster: cloudinaryPoster(1779869786, "3d_s79tes"),
                         category: "creative",
                         desc: "Creative visual showcase using advanced 3D camera tracking, virtual element integration, and seamless composite overlays."
                     } 
@@ -894,9 +912,11 @@
                             <div class="relative w-full h-full">
                                 <!-- Card Placeholder (z-20 so it sits on top initially) -->
                                 <div class="card-placeholder absolute inset-0 z-20 flex flex-col items-center justify-center p-6 text-center">
+                                    <img class="card-poster absolute inset-0 w-full h-full object-cover" src="${data.poster}" alt="" loading="lazy" decoding="async">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-black via-black/45 to-black/10"></div>
                                     <div class="card-placeholder-icon mb-4">A</div>
-                                    <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded mb-2">${data.category === 'ugc' ? 'UGC & Fitness' : data.category === 'motion' ? 'Motion Graphics' : 'Creative & 3D'}</span>
-                                    <h4 class="text-base font-black text-white tracking-tight leading-snug px-4">${data.title}</h4>
+                                    <span class="relative text-[10px] font-bold uppercase tracking-wider text-indigo-300 bg-black/50 border border-indigo-400/25 px-2 py-0.5 rounded mb-2">${data.category === 'ugc' ? 'UGC & Fitness' : data.category === 'motion' ? 'Motion Graphics' : 'Creative & 3D'}</span>
+                                    <h4 class="relative text-base font-black text-white tracking-tight leading-snug px-4 drop-shadow-lg">${data.title}</h4>
                                 </div>
 
                                 <!-- Video Container (z-10 so it stays underneath until loaded) -->
@@ -938,6 +958,8 @@
 
                     const video = document.createElement('video');
                     video.src = data.file;
+                    video.poster = data.poster;
+                    video.preload = 'metadata';
                     video.muted = true;
                     video.loop = true;
                     video.playsInline = true;
