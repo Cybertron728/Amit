@@ -1051,6 +1051,8 @@
 
                 let lightboxMuted = false; // default unmuted inside cinema theater mode
                 let activeProgressHandler = null;
+                let activePlayingHandler = null;
+                let activeWaitingHandler = null;
 
                 function openLightbox(originalIndex) {
                     currentLightboxIndex = originalIndex;
@@ -1069,6 +1071,14 @@
                         lbVideo.removeEventListener('progress', activeProgressHandler);
                         activeProgressHandler = null;
                     }
+                    if (activePlayingHandler) {
+                        lbVideo.removeEventListener('playing', activePlayingHandler);
+                        activePlayingHandler = null;
+                    }
+                    if (activeWaitingHandler) {
+                        lbVideo.removeEventListener('waiting', activeWaitingHandler);
+                        activeWaitingHandler = null;
+                    }
 
                     lbVideo.pause();
                     lbVideo.removeAttribute('src');
@@ -1086,12 +1096,12 @@
                     const data = videoData[currentLightboxIndex];
                     if (!data) return;
 
-                    // Clean up previous event listener if active
-                    if (activeProgressHandler) {
-                        lbVideo.removeEventListener('progress', activeProgressHandler);
-                    }
+                    // Clean up previous event listeners if active
+                    if (activeProgressHandler) lbVideo.removeEventListener('progress', activeProgressHandler);
+                    if (activePlayingHandler) lbVideo.removeEventListener('playing', activePlayingHandler);
+                    if (activeWaitingHandler) lbVideo.removeEventListener('waiting', activeWaitingHandler);
 
-                    // Show loader
+                    // Show loader initially
                     lbLoader.style.opacity = '1';
                     lbLoader.style.pointerEvents = 'auto';
 
@@ -1124,7 +1134,8 @@
                     };
                     lbVideo.addEventListener('progress', activeProgressHandler);
 
-                    lbVideo.addEventListener('loadeddata', () => {
+                    // Define state handlers to dynamically toggle loading spinner
+                    activePlayingHandler = () => {
                         lbLoader.style.opacity = '0';
                         lbLoader.style.pointerEvents = 'none';
 
@@ -1134,12 +1145,22 @@
                             lbLoadingBarContainer.style.opacity = '0';
                         }, 200);
 
-                        lbVideo.play().catch(e => console.log("Lightbox Play Autoplay block:", e));
-                        
                         if (activeProgressHandler) {
                             lbVideo.removeEventListener('progress', activeProgressHandler);
                             activeProgressHandler = null;
                         }
+                    };
+
+                    activeWaitingHandler = () => {
+                        lbLoader.style.opacity = '1';
+                        lbLoader.style.pointerEvents = 'auto';
+                    };
+
+                    lbVideo.addEventListener('playing', activePlayingHandler);
+                    lbVideo.addEventListener('waiting', activeWaitingHandler);
+
+                    lbVideo.addEventListener('loadeddata', () => {
+                        lbVideo.play().catch(e => console.log("Lightbox Play Autoplay block:", e));
                     }, { once: true });
 
                     lbVideo.load();
